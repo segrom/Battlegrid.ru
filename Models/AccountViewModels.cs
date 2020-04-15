@@ -49,9 +49,9 @@ namespace Battlegrid.ru.Models
     public class LoginViewModel
     {
         [Required]
-        [Display(Name = "Адрес электронной почты")]
-        [EmailAddress]
-        public string Email { get; set; }
+        [Display(Name = "Имя пользователся")]
+        [DataType(DataType.Text)]
+        public string Name { get; set; }
 
         [Required]
         [DataType(DataType.Password)]
