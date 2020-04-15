@@ -9,6 +9,7 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using Battlegrid.ru.Models;
+using WebGrease.Css.Extensions;
 
 namespace Battlegrid.ru.Controllers
 {
@@ -151,7 +152,8 @@ namespace Battlegrid.ru.Controllers
         {
             if (ModelState.IsValid)
             {
-                var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
+                string userName =string.Join("" ,model.Email.TakeWhile(c=>c!='@'));
+                var user = new ApplicationUser { UserName = userName, Email = model.Email };
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
@@ -162,7 +164,12 @@ namespace Battlegrid.ru.Controllers
                     // string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
                     // var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
                     // await UserManager.SendEmailAsync(user.Id, "Подтверждение учетной записи", "Подтвердите вашу учетную запись, щелкнув <a href=\"" + callbackUrl + "\">здесь</a>");
-
+                    using (BGS_DBContext ctx_db = new BGS_DBContext())
+                    {
+                        var new_user = new User {Name = user.UserName, Password = model.Password, GameLevel = 0, LastActivity = DateTime.Now, Rating = 5, SiteId = user.Id};
+                        ctx_db.Users.Add(new_user);
+                        await ctx_db.SaveChangesAsync();
+                    }
                     return RedirectToAction("Index", "Home");
                 }
                 AddErrors(result);
@@ -257,6 +264,11 @@ namespace Battlegrid.ru.Controllers
             var result = await UserManager.ResetPasswordAsync(user.Id, model.Code, model.Password);
             if (result.Succeeded)
             {
+                using (BGS_DBContext ctx_db = new BGS_DBContext())
+                {
+                    ctx_db.Users.First(u => u.SiteId == user.Id).Password = model.Password;
+                    await ctx_db.SaveChangesAsync();
+                }
                 return RedirectToAction("ResetPasswordConfirmation", "Account");
             }
             AddErrors(result);
