@@ -61,6 +61,7 @@ namespace Battlegrid.ru.Controllers
                 : message == ManageMessageId.Error ? "Произошла ошибка."
                 : message == ManageMessageId.AddPhoneSuccess ? "Ваш номер телефона добавлен."
                 : message == ManageMessageId.RemovePhoneSuccess ? "Ваш номер телефона удален."
+                : message == ManageMessageId.ChangeNameSuccess ? "Ваше имя было успешно изменено, изменения войдут в силу после перезахода в аккаунт"
                 : "";
 
             var userId = User.Identity.GetUserId();
@@ -264,6 +265,12 @@ namespace Battlegrid.ru.Controllers
                 {
                     ctx.Users.Find(user.Id).UserName = model.NewName;
                     await ctx.SaveChangesAsync();
+                }
+
+                using (BGS_DBContext ctx_db = new BGS_DBContext())
+                {
+                    ctx_db.Users.First(u => u.SiteId == user.Id).Name = model.NewName;
+                    await ctx_db.SaveChangesAsync();
                 }
                 return RedirectToAction("Index", new { Message = ManageMessageId.ChangeNameSuccess });
             }
