@@ -5,6 +5,7 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.UI.WebControls;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
@@ -59,7 +60,7 @@ namespace Battlegrid.ru.Controllers
         public ActionResult Login(string returnUrl)
         {
             ViewBag.ReturnUrl = returnUrl;
-            return View();
+            return View(new LoginViewModel());
         }
 
         //
@@ -140,7 +141,7 @@ namespace Battlegrid.ru.Controllers
         [AllowAnonymous]
         public ActionResult Register()
         {
-            return View();
+            return View(new RegisterViewModel());
         }
 
         //
