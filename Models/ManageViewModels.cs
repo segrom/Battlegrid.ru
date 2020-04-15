@@ -25,6 +25,19 @@ namespace Battlegrid.ru.Models
         public string Purpose { get; set; }
     }
 
+    public class ChangeNameViewModel
+    {
+        [Required]
+        [StringLength(100,ErrorMessage = "Значение {0} должно содержать символов не менее: {2}.",MinimumLength = 3)]
+        [DataType(DataType.Text)]
+        [Display(Name = "Новое имя")]
+
+        public string NewName { get; set; }
+        [Required]
+        [DataType(DataType.Password)]
+        [Display(Name = "Пароль")]
+        public string Password { get; set; }
+    }
     public class SetPasswordViewModel
     {
         [Required]

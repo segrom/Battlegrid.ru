@@ -243,7 +243,33 @@ namespace Battlegrid.ru.Controllers
             AddErrors(result);
             return View(model);
         }
+        //
+        // GET: /Manage/ChangePassword
+        public ActionResult ChangeName() {
+            return View();
+        }
 
+        //
+        // POST: /Manage/ChangePassword
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> ChangeName(ChangeNameViewModel model) {
+            if (!ModelState.IsValid) {
+                return View(model);
+            }
+            var user = UserManager.FindById(User.Identity.GetUserId());
+            var result = await UserManager.CheckPasswordAsync(user, model.Password);
+            if (result && user != null) {
+                using (ApplicationDbContext ctx = new ApplicationDbContext())
+                {
+                    ctx.Users.Find(user.Id).UserName = model.NewName;
+                    await ctx.SaveChangesAsync();
+                }
+                return RedirectToAction("Index", new { Message = ManageMessageId.ChangeNameSuccess });
+            }
+            AddErrors(new IdentityResult("Ошибка индификации"));
+            return View(model);
+        }
         //
         // GET: /Manage/SetPassword
         public ActionResult SetPassword()
@@ -381,6 +407,7 @@ namespace Battlegrid.ru.Controllers
             SetPasswordSuccess,
             RemoveLoginSuccess,
             RemovePhoneSuccess,
+            ChangeNameSuccess,
             Error
         }
 

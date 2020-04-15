@@ -10,21 +10,25 @@
     <h4>Изменение параметров учетной записи</h4>
     <hr />
     <dl class="dl-horizontal">
+        <dt>Имя (@User.Identity.Name) :</dt>
+        <dd>
+            @Html.ActionLink("Смена имени", "ChangeName", null, new { @class = "badge badge-dark" })
+        </dd>
         <dt>Пароль:</dt>
         <dd>
-            [
+            
             @if (Model.HasPassword) {
-                @Html.ActionLink("Смена пароля", "ChangePassword")
+                @Html.ActionLink("Смена пароля", "ChangePassword", null, new { @class = "badge badge-dark" })
             }
             else {
-                @Html.ActionLink("Создать", "SetPassword")
+                @Html.ActionLink("Создать", "SetPassword", null, new { @class = "badge badge-dark" })
             }
-            ]
+            
         </dd>
         <dt>Внешние имена входа:</dt>
         <dd>
-            @Model.Logins.Count [
-            @Html.ActionLink("Управление", "ManageLogins") ]
+            @Model.Logins.Count 
+            @Html.ActionLink("Управление", "ManageLogins",null,new {@class="badge badge-dark"}) 
         </dd>
         @*
         Номера телефонов можно использовать в качестве второго проверочного фактора для системы двухфакторной проверки подлинности.
