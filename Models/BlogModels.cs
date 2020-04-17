@@ -1,14 +1,16 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System;
 using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
+using Microsoft.AspNet.Identity.EntityFramework;
 
 namespace Battlegrid.ru.Models
 {
     public class BlogModels : DbContext
     {
         public BlogModels() : base("DefaultConnection") {
-            Database.SetInitializer<BlogModels>(new BlogModelsCreater());
+            //Database.SetInitializer<BlogModels>(new BlogModelsCreater());
         }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder) {
@@ -20,20 +22,26 @@ namespace Battlegrid.ru.Models
         public DbSet<Post> Posts { get; set; }
         public DbSet<Comment> Comments { get; set; }
     }
-        public class BlogModelsCreater : DropCreateDatabaseAlways<BlogModels> {
-            protected override void Seed(BlogModels context) {
+        //public class BlogModelsCreater : DropCreateDatabaseAlways<BlogModels> {
+        //    protected override void Seed(BlogModels context) {
 
-            }
-        }
+        //    }
+        //}
     public class Post
     {
+        public Post()
+        {
+            Comments = new List<Comment>();
+        }
+
         [Key] [Required] public int Id { get; set; }
         [Required] public string Author { get; set; }
         [Required] public string Label { get; set; }
         [Required] public string Text { get; set; }
         [Required] public int Likes { get; set; }
+        [Required] public DateTime CreationTime { get; set; }
         [Required] public int Views { get; set; }
-        [Required]
+        public string ImageUrl { get; set; }
         public virtual ICollection<Comment> Comments { get; set; }
     }
 
@@ -44,8 +52,15 @@ namespace Battlegrid.ru.Models
         [Required] public string Body { get; set; }
         [Required] public int Likes { get; set; }
         [Required] public int Views { get; set; }
+        [Required] public DateTime CreationTime { get; set; }
         public virtual Post Post { get; set; }
-        [Required] public int PostId { get; set; }
+        public int? PostId { get; set; }
 
+    }
+
+    public class AllPostsModel
+    {
+        public Post[] AllPosts { get; set; }
+        public IdentityUser[] AllAuthors { get; set; }
     }
 }

@@ -1,65 +1,54 @@
-﻿@{
+﻿@model Battlegrid.ru.Models.HomeIndexViewModel
+@{
     ViewBag.Title = "Home Page";
 }
-    <div class="container">
-        <div class="jumbotron bg-dark text-light rounded-0" style="background-image: url(https://cdna.artstation.com/p/assets/images/images/007/430/426/large/abrar-khan-black-ops.jpg?1506078131)">
-            <h1 class="display-4">Battle Grid</h1>
-            <p class="lead">Многопользовательская онлайн пошаговая стратегия с элементами прокачки. Создавайте свой сквад и побеждайте.</p>
-            <hr class="my-4">
-            <p>Пройдите регистрацию и начинайте играть</p>
-            <p class="lead">
-                @Html.ActionLink("Зарегистрироваться", "Register", "Account", routeValues: null, htmlAttributes: new { id = "registerLink", @class = "btn btn-secondary btn-lg active", role = "button" })
-            </p>
-        </div>
-        <h2 class="">Особенности игры   <span class="badge badge-secondary">Main</span></h2>
-        <br />
-        @* Fichi *@
-        <div class="row ">
-            <div class="col-4 ">
-                <div class="list-group " id="list-tab" role="tablist">
-                    <a class="list-group-item list-group-item-action bg-dark text-light btn-outline-light active" id="list-home-list" data-toggle="list" href="#list-home" role="tab" aria-controls="home">Разнообразие</a>
-                    <a class="list-group-item list-group-item-action bg-dark text-light btn-outline-light" id="list-profile-list" data-toggle="list" href="#list-profile" role="tab" aria-controls="profile">Мультиплеер</a>
-                    <a class="list-group-item list-group-item-action bg-dark text-light btn-outline-light" id="list-messages-list" data-toggle="list" href="#list-messages" role="tab" aria-controls="messages">Кастомизация</a>
-                    <a class="list-group-item list-group-item-action bg-dark text-light btn-outline-light" id="list-settings-list" data-toggle="list" href="#list-settings" role="tab" aria-controls="settings">Стратегия</a>
-                </div>
-            </div>
-            <div class="col-8">
-                <div class="tab-content" id="nav-tabContent">
-                    <div class="tab-pane fade show active" id="list-home" role="tabpanel" aria-labelledby="list-home-list">Разнообразие асортимента аксессуаров и оружия не оставит вас равнодушными</div>
-                    <div class="tab-pane fade" id="list-profile" role="tabpanel" aria-labelledby="list-profile-list">Сессионные игры с 2,4 и 6ю игроками. Играйте как в команде так и в одиночкую</div>
-                    <div class="tab-pane fade" id="list-messages" role="tabpanel" aria-labelledby="list-messages-list">Широкие возможности касомизации юнитов открывают большой простор для фантазии</div>
-                    <div class="tab-pane fade" id="list-settings" role="tabpanel" aria-labelledby="list-settings-list">Победа зависти только от вас и вашего стратегического мышления</div>
-                </div>
+<div class="container">
+    <div class="jumbotron bg-dark text-light rounded-0" style="background-image: url(https://cdna.artstation.com/p/assets/images/images/007/430/426/large/abrar-khan-black-ops.jpg?1506078131)">
+        <h1 class="display-4">Battle Grid</h1>
+        <p class="lead">Многопользовательская онлайн пошаговая стратегия с элементами прокачки. Создавайте свой сквад и побеждайте.</p>
+        <hr class="my-4">
+        <p>Пройдите регистрацию и начинайте играть</p>
+        <p class="lead">
+            @Html.ActionLink("Зарегистрироваться", "Register", "Account", routeValues: null, htmlAttributes: new { id = "registerLink", @class = "btn btn-secondary btn-lg active", role = "button" })
+        </p>
+    </div>
+    <h2 class="">Особенности игры   <span class="badge badge-secondary">Main</span></h2>
+    <br />
+    @* Fichi *@
+    <div class="row ">
+        <div class="col-4 ">
+            <div class="list-group " id="list-tab" role="tablist">
+                <a class="list-group-item list-group-item-action bg-dark text-light btn-outline-light active" id="list-home-list" data-toggle="list" href="#list-home" role="tab" aria-controls="home">Разнообразие</a>
+                <a class="list-group-item list-group-item-action bg-dark text-light btn-outline-light" id="list-profile-list" data-toggle="list" href="#list-profile" role="tab" aria-controls="profile">Мультиплеер</a>
+                <a class="list-group-item list-group-item-action bg-dark text-light btn-outline-light" id="list-messages-list" data-toggle="list" href="#list-messages" role="tab" aria-controls="messages">Кастомизация</a>
+                <a class="list-group-item list-group-item-action bg-dark text-light btn-outline-light" id="list-settings-list" data-toggle="list" href="#list-settings" role="tab" aria-controls="settings">Стратегия</a>
             </div>
         </div>
-        @* blog *@
-        <br />
-        <h2 class="">Блог разработки   <span class="badge badge-secondary">Blog</span></h2>
-        <br />
-        <div class="list-group">
-            <a href="#" class="list-group-item list-group-item-action bg-dark text-light btn-outline-light active">
-                <div class="d-flex w-100 justify-content-between">
-                    <h5 class="mb-1">List group item heading</h5>
-                    <small>3 days ago</small>
-                </div>
-                <p class="mb-1">Donec id elit non mi porta gravida at eget metus. Maecenas sed diam eget risus varius blandit.</p>
-                <small>Donec id elit non mi porta.</small>
-            </a>
-            <a href="#" class="list-group-item list-group-item-action bg-dark text-light btn-outline-light ">
-                <div class="d-flex w-100 justify-content-between">
-                    <h5 class="mb-1">List group item heading</h5>
-                    <small class="text-muted">3 days ago</small>
-                </div>
-                <p class="mb-1">Donec id elit non mi porta gravida at eget metus. Maecenas sed diam eget risus varius blandit.</p>
-                <small class="text-muted">Donec id elit non mi porta.</small>
-            </a>
-            <a href="#" class="list-group-item list-group-item-action bg-dark text-light btn-outline-light ">
-                <div class="d-flex w-100 justify-content-between">
-                    <h5 class="mb-1">List group item heading</h5>
-                    <small class="text-muted">3 days ago</small>
-                </div>
-                <p class="mb-1">Donec id elit non mi porta gravida at eget metus. Maecenas sed diam eget risus varius blandit.</p>
-                <small class="text-muted">Donec id elit non mi porta.</small>
-            </a>
+        <div class="col-8">
+            <div class="tab-content" id="nav-tabContent">
+                <div class="tab-pane fade show active" id="list-home" role="tabpanel" aria-labelledby="list-home-list">Разнообразие асортимента аксессуаров и оружия не оставит вас равнодушными</div>
+                <div class="tab-pane fade" id="list-profile" role="tabpanel" aria-labelledby="list-profile-list">Сессионные игры с 2,4 и 6ю игроками. Играйте как в команде так и в одиночкую</div>
+                <div class="tab-pane fade" id="list-messages" role="tabpanel" aria-labelledby="list-messages-list">Широкие возможности касомизации юнитов открывают большой простор для фантазии</div>
+                <div class="tab-pane fade" id="list-settings" role="tabpanel" aria-labelledby="list-settings-list">Победа зависти только от вас и вашего стратегического мышления</div>
+            </div>
         </div>
     </div>
+    @* blog *@
+    <br />
+    <h2 class="">Блог разработки   <span class="badge badge-secondary">Blog</span></h2>
+    <br />
+    <div class="list-group">
+        @foreach (var post in Model.AllPosts) {
+            
+        <a href="#" class="list-group-item list-group-item-action bg-dark text-light btn-outline-light active">
+            @{string hoursAgo = (@DateTime.Now - @post.CreationTime).Hours.ToString(); }
+                <div class="d-flex w-100 justify-content-between">
+                    <h5 class="mb-1">@post.Label </h5>
+                    <small>@hoursAgo hours ago</small>
+                </div>
+                <p class="mb-1">@post.Text</p>
+            <small>Views @post.Views</small>
+            </a>
+        }
+    </div>
+</div>

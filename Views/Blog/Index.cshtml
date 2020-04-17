@@ -1,16 +1,41 @@
-﻿@model BlogViewModels
+﻿@model Battlegrid.ru.Models.AllPostsModel
 
 
+@{
+    ViewBag.Title = "Блог";
+    bool auth = false;
+}
 
-<!DOCTYPE html>
+@if (Request.IsAuthenticated) {
+    auth = true;
+}
+<dl class="container">
 
-<html>
-<head>
-    <title>title</title>
-</head>
-<body>
-<div>
-      
-</div>
-</body>
-</html>
+    @if (auth && User.IsInRole("admin"))
+    {
+        
+    <ul class="nav navbar-nav mt-3">
+        <li class="col-2"></li>
+        <li class="row">@Html.ActionLink("Новый пост", "NewPost", "Blog", null, new { @class = "mx-2 btn btn-success " })</li>
+        <li class="col-2"></li>
+    </ul>     
+            
+        
+    }
+        <br />
+    <h2 class="">Блог разработки <span class="badge badge-secondary">Blog</span></h2>
+    <br />
+    <div class="list-group">
+        @foreach (var post in Model.AllPosts) {
+            <div class="card mb-3">
+                <img src="@post.ImageUrl" class="card-img-top h-100" alt="@post.Label">
+                <div class="float-lg-right justify-content-end"> <small class="badge badge-dark p-2 m-2">@Model.AllAuthors.First(p => p.Id == post.Author).UserName</small></div>
+                <div class="card-body">
+                    <h5 class="card-title">@post.Label</h5>
+                    <p class="card-text">@post.Text</p>
+                    <p class="card-text"><small class="text-muted">@post.CreationTime.ToString("MM.MM hh:mm")</small><small class="text-danger"> Likes(@post.Likes) </small><small class="text-muted"> Views(@post.Views) </small></p>
+                </div>
+            </div>
+        }
+    </div>
+</dl>
