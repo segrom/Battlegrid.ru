@@ -170,7 +170,7 @@ namespace Battlegrid.ru.Controllers
                         var new_user = new User
                         {
                             Name = user.UserName, Password = model.Password, GameLevel = 0, LastActivity = DateTime.Now,
-                            Rating = 5, SiteId = user.Id
+                            Rating = 5, Id = user.Id
                         };
                         ctx_db.Users.Add(new_user);
                         ctx_db.SaveChanges();
@@ -271,7 +271,7 @@ namespace Battlegrid.ru.Controllers
             {
                 using (BGS_DBContext ctx_db = new BGS_DBContext())
                 {
-                    ctx_db.Users.First(u => u.SiteId == user.Id).Password = model.Password;
+                    ctx_db.Users.First(u => u.Id == user.Id).Password = model.Password;
                     await ctx_db.SaveChangesAsync();
                 }
                 return RedirectToAction("ResetPasswordConfirmation", "Account");

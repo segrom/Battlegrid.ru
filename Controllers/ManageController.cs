@@ -269,7 +269,7 @@ namespace Battlegrid.ru.Controllers
 
                 using (BGS_DBContext ctx_db = new BGS_DBContext())
                 {
-                    ctx_db.Users.First(u => u.SiteId == user.Id).Name = model.NewName;
+                    ctx_db.Users.First(u => u.Id == user.Id).Name = model.NewName;
                     await ctx_db.SaveChangesAsync();
                 }
                 return RedirectToAction("Index", new { Message = ManageMessageId.ChangeNameSuccess });
