@@ -1,0 +1,35 @@
+﻿@using System.Web.UI.WebControls
+@model Battlegrid.ru.Models.NewPostModel
+
+@{
+    ViewBag.Title = "Новый пост";
+}
+<div class="align-content-center justify-content-center container"><h2 class=""> @ViewBag.Title</h2> </div>
+    <div class="container row">
+        <div class="col"></div>
+        <div class="col">
+            @using (Html.BeginForm("NewPost", "Blog", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { role = "form" })) {
+                @Html.AntiForgeryToken()
+                @Html.ValidationSummary(true, "", new { @class = "text-danger", role = "alert" })
+                <div class="form-group">
+                    @Html.LabelFor(m => m.Label, new { @class = "" })
+                    @Html.TextBoxFor(m => m.Label, new { @class = "form-control" })
+                    <small id="emailHelp" class="form-text text-muted">Краткое описание о чем будет в посте.</small>
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(m => m.Text, new { @class = "" })
+                    @Html.TextAreaFor(m => m.Text, new { @class = "form-control" })
+                </div>
+                <div class="form-group">
+                    <div class="input-group flex-nowrap">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text" id="addon-wrapping">Image URL</span>
+                        </div>
+                        @Html.TextBoxFor(m => m.ImageUrl, new { @class = "form-control", placeholder = "url" })
+                    </div>
+                </div>
+                <button type="submit" value="Отправить" class="btn btn-success">Отправить</button>
+            }
+            </div>
+            <div class="col"></div>
+        </div>

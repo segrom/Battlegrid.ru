@@ -39,12 +39,11 @@
     <br />
     <div class="list-group">
         @foreach (var post in Model.AllPosts) {
-            
-        <a href="#" class="list-group-item list-group-item-action bg-dark text-light btn-outline-light active">
+            <a href="#" class="list-group-item list-group-item-action bg-dark text-light btn-outline-light active">
             @{string hoursAgo = (@DateTime.Now - @post.CreationTime).Hours.ToString(); }
                 <div class="d-flex w-100 justify-content-between">
                     <h5 class="mb-1">@post.Label </h5>
-                    <small>@hoursAgo hours ago</small>
+                    <small>@hoursAgo часов назад</small>
                 </div>
                 <p class="mb-1">@post.Text</p>
             <small>Views @post.Views</small>

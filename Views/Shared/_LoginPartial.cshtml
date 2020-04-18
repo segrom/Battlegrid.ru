@@ -7,7 +7,7 @@
 
 <ul class="nav navbar-nav navbar-right">
     @if (User.IsInRole("admin")) {
-        <li>@Html.ActionLink("Редактировать блог", "Index", "Blog", null, new { @class = "btn btn-outline-success text-success mx-3" })</li>
+        <li>@Html.ActionLink("Новый пост", "NewPost", "Blog", null, new { @class = "btn btn-outline-success text-success mx-3" })</li>
 
     }
     <li>

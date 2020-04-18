@@ -63,4 +63,19 @@ namespace Battlegrid.ru.Models
         public Post[] AllPosts { get; set; }
         public IdentityUser[] AllAuthors { get; set; }
     }
+
+    public class NewPostModel
+    {
+        [Required]
+        [DataType(DataType.Text)]
+        [Display(Name = "Заголовок")]
+        public string Label { get; set; }
+        [Required]
+        [DataType(DataType.MultilineText)]
+        [Display(Name = "Пост")]
+        public string Text { get; set; }
+        [DataType(DataType.ImageUrl)]
+        [Display(Name = "Изображение")]
+        public string ImageUrl { get; set; }
+    }
 }
