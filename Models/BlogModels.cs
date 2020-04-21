@@ -42,7 +42,7 @@ namespace Battlegrid.ru.Models
         [Required] public DateTime CreationTime { get; set; }
         [Required] public int Views { get; set; }
         public string ImageUrl { get; set; }
-        public virtual ICollection<Comment> Comments { get; set; }
+        public virtual   ICollection<Comment> Comments { get; set; }
     }
 
     public class Comment
@@ -77,5 +77,17 @@ namespace Battlegrid.ru.Models
         [DataType(DataType.ImageUrl)]
         [Display(Name = "Изображение")]
         public string ImageUrl { get; set; }
+    }
+
+    public class WriteCommentModel
+    {
+        public Post Post { get; set; }
+
+        public IdentityUser[] AllAuthors { get; set; }
+
+        [Required]
+        [DataType(DataType.MultilineText)]
+        [Display(Name = "Ваш комментарий:")]
+        public string Body { get; set; }
     }
 }

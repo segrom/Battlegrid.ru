@@ -1,0 +1,39 @@
+﻿@using Battlegrid.ru.Models
+@model Battlegrid.ru.Models.WriteCommentModel
+@{
+    var post = Model.Post;
+}
+<h2 class="">новый комментарий <span class="badge badge-success">New</span></h2>
+<br/>
+<div class="card mb-3">
+    <img src="@post.ImageUrl" class="card-img-top h-100" alt="@post.Label">
+    <div class="float-lg-right justify-content-end"> <small class="badge badge-dark p-2 m-2">@Model.AllAuthors.First(p => p.Id == post.Author).UserName</small></div>
+    <div class="card-body">
+        <h5 class="card-title">@post.Label</h5>
+        <p class="card-text">@post.Text</p>
+        <p class="card-text"><small class="text-muted">@post.CreationTime.ToString("MM.MM hh:mm")</small><small class="text-danger"> Likes(@post.Likes) </small><small class="text-muted"> Views(@post.Views) </small></p>
+    </div>
+</div>
+<div class="container">
+    @using (Html.BeginForm("WriteComment", "Blog", new { ReturnUrl = ViewBag.ReturnUrl, postId = post.Id }, FormMethod.Post, new { role = "form" })) {
+        @Html.AntiForgeryToken()
+    <div class="form-group">
+        @Html.ValidationSummary(true, "", new { @class = "text-danger", role = "alert" })
+        @Html.LabelFor(m => m.Body)
+        @Html.TextAreaFor(m => m.Body)
+    </div>
+        <button type="submit" class="btn btn-success">Прокомментировать</button>
+    }
+    <br />
+    @foreach (Comment comment in post.Comments) {
+        <div class="card">
+            <span> @Model.AllAuthors.First(a => a.Id == comment.Author).UserName </span>
+            <div class="card-body">
+                @comment.Body
+            </div>
+            <small>@comment.CreationTime Views:@comment.Views Likes:@comment.Likes</small>
+        </div>
+        <br />
+    }
+</div>
+<br />
