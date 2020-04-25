@@ -37,14 +37,14 @@
                 <p class="card-text">@post.Text</p>
                 <p class="card-text"><small class="text-muted">@post.CreationTime.ToString("MM.MM hh:mm")</small><small class="text-danger"> Likes(@post.Likes) </small><small class="text-muted"> Views(@post.Views) </small></p>
             </div>
-            <div class="dropdown">
+            <div class="container">
                 @Html.ActionLink("Write comment", "WriteComment", "Blog", new { postId = post.Id }, new { @class = "btn btn-secondary", role = "button", type = "button" })
                 @*<button type="button" class="btn btn-secondary">Write comment</button>*@
                 <button type="button" class="btn btn-secondary dropdown-toggle dropdown-toggle-split" id="dropdownMenuReference" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-reference="parent">
                     Comments <span class="sr-only">Toggle Dropdown</span>
                 </button>
-                <div class="dropdown-menu p-4 text-muted" style="max-width: 200px;">
-                    <h6 class="dropdown-header">Comments</h6>
+                <div class="text-muted" style="max-width: 200px;">
+                    <h6 class="h3">Comments</h6>
                     @*<button class="dropdown-item" type="button">Action</button>*@
                     @foreach (Comment comment in post.Comments) {
                         <p class="">

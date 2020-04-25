@@ -10,6 +10,7 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using Battlegrid.ru.Models;
+using BGS.Models;
 using WebGrease.Css.Extensions;
 
 namespace Battlegrid.ru.Controllers
