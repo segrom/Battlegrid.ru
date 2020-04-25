@@ -50,6 +50,9 @@
     <Reference Include="BGS_Models">
       <HintPath>..\BGS_Models\BGS_Models\bin\Debug\BGS_Models.dll</HintPath>
     </Reference>
+    <Reference Include="BGS_TypesAndItems">
+      <HintPath>..\BGS_Models\BGS_TypesAndItems\bin\Debug\BGS_TypesAndItems.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.AspNet.SignalR.Core, Version=2.4.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>packages\Microsoft.AspNet.SignalR.Core.2.4.1\lib\net45\Microsoft.AspNet.SignalR.Core.dll</HintPath>
     </Reference>
