@@ -10,6 +10,7 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using Battlegrid.ru.Models;
+using Battlegrid.ru.Utils;
 using BGS.Models;
 using WebGrease.Css.Extensions;
 
@@ -156,29 +157,28 @@ namespace Battlegrid.ru.Controllers
             {
                 string userName =string.Join("" ,model.Email.TakeWhile(c=>c!='@'));
                 var user = new ApplicationUser { UserName = userName, Email = model.Email };
-                var result = await UserManager.CreateAsync(user, model.Password);
-                if (result.Succeeded)
+                using (var ctx_db = new BGS_DBContext())
                 {
-                    await SignInManager.SignInAsync(user, isPersistent:false, rememberBrowser:false);
-                    
-                    // Дополнительные сведения о включении подтверждения учетной записи и сброса пароля см. на странице https://go.microsoft.com/fwlink/?LinkID=320771.
-                    // Отправка сообщения электронной почты с этой ссылкой
-                    // string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
-                    // var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
-                    // await UserManager.SendEmailAsync(user.Id, "Подтверждение учетной записи", "Подтвердите вашу учетную запись, щелкнув <a href=\"" + callbackUrl + "\">здесь</a>");
-                    using (var ctx_db = new BGS_DBContext())
+                    var new_user = GameUtilCreater.CreateNewUser(model.Email, model.Password,user);
+                    ctx_db.Users.Add(new_user);
+
+
+                    var result = await UserManager.CreateAsync(user, model.Password);
+                    if (result.Succeeded)
                     {
-                        var new_user = new User
-                        {
-                            Name = user.UserName, Password = model.Password, GameLevel = 0, LastActivity = DateTime.Now,
-                            Rating = 5, Id = user.Id
-                        };
-                        ctx_db.Users.Add(new_user);
+                        await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
+
+                        // Дополнительные сведения о включении подтверждения учетной записи и сброса пароля см. на странице https://go.microsoft.com/fwlink/?LinkID=320771.
+                        // Отправка сообщения электронной почты с этой ссылкой
+                        // string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
+                        // var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
+                        // await UserManager.SendEmailAsync(user.Id, "Подтверждение учетной записи", "Подтвердите вашу учетную запись, щелкнув <a href=\"" + callbackUrl + "\">здесь</a>");
                         ctx_db.SaveChanges();
+                        return RedirectToAction("Index", "Home");
                     }
-                    return RedirectToAction("Index", "Home");
+
+                    AddErrors(result);
                 }
-                AddErrors(result);
             }
 
             // Появление этого сообщения означает наличие ошибки; повторное отображение формы

@@ -1,0 +1,70 @@
+﻿@model Battlegrid.ru.Models.NewUnitLotModel
+
+@{
+    ViewBag.Title = "Новый пост";
+}
+<div class="align-content-center justify-content-center container"><h2 class=""> @ViewBag.Title</h2> </div>
+<div class="container row">
+    <div class="col"></div>
+    <div class="col">
+        @using (Html.BeginForm("NewUnitLot", "Market", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { role = "form" })) {
+            @Html.AntiForgeryToken()
+            @Html.ValidationSummary(true, "", new { @class = "text-danger", role = "alert" })
+        <div class="form-group">
+            @Html.LabelFor(m => m.Name, new { @class = "" })
+            @Html.TextBoxFor(m => m.Name, new { @class = "form-control" })
+            @Html.LabelFor(m => m.Surname, new { @class = "" })
+            @Html.TextBoxFor(m => m.Surname, new { @class = "form-control" })
+            @Html.LabelFor(m => m.Age, new { @class = "" })
+            @Html.TextBoxFor(m => m.Age, new { @class = "form-control" })
+            @Html.CheckBoxFor(u=>u.RadnomNSA)
+            <small id="emailHelp" class="form-text text-muted">Рандомное определение имени фамилии и возраста </small>
+        </div>
+            <div class="form-group">
+                @Html.LabelFor(m => m.BaseAccuracy, new { @class = "" })
+                @Html.TextBoxFor(m => m.BaseAccuracy, new { @class = "form-control" })
+                @Html.LabelFor(m => m.BaseActionPoints, new { @class = "" })
+                @Html.TextBoxFor(m => m.BaseActionPoints, new { @class = "form-control" })
+                @Html.LabelFor(m => m.BaseHealth, new { @class = "" })
+                @Html.TextBoxFor(m => m.BaseHealth, new { @class = "form-control" })
+                @Html.LabelFor(m => m.BaseMeleeDamage, new { @class = "" })
+                @Html.TextBoxFor(m => m.BaseMeleeDamage, new { @class = "form-control" })
+                @Html.LabelFor(m => m.BaseStrong, new { @class = "" })
+                @Html.TextBoxFor(m => m.BaseStrong, new { @class = "form-control" })
+            </div>
+            <h3>Специализация</h3>
+            <div class="form-group">
+                @Html.LabelFor(m => m.HeavyWeapon, new { @class = "" })
+                @Html.TextBoxFor(m => m.HeavyWeapon, new { @class = "form-control" })
+                @Html.LabelFor(m => m.LightWeapon, new { @class = "" })
+                @Html.TextBoxFor(m => m.LightWeapon, new { @class = "form-control" })
+                @Html.LabelFor(m => m.AccurateWeapon, new { @class = "" })
+                @Html.TextBoxFor(m => m.AccurateWeapon, new { @class = "form-control" })
+                @Html.LabelFor(m => m.Handgun, new { @class = "" })
+                @Html.TextBoxFor(m => m.Handgun, new { @class = "form-control" })
+                @Html.LabelFor(m => m.Explosive, new { @class = "" })
+                @Html.TextBoxFor(m => m.Explosive, new { @class = "form-control" })
+                @Html.LabelFor(m => m.HeavyArmor, new { @class = "" })
+                @Html.TextBoxFor(m => m.HeavyArmor, new { @class = "form-control" })
+                @Html.LabelFor(m => m.LightArmor, new { @class = "" })
+                @Html.TextBoxFor(m => m.LightArmor, new { @class = "form-control" })
+                @Html.LabelFor(m => m.GasInsensitivity, new { @class = "" })
+                @Html.TextBoxFor(m => m.GasInsensitivity, new { @class = "form-control" })
+                @Html.LabelFor(m => m.FireInsensitivity, new { @class = "" })
+                @Html.TextBoxFor(m => m.FireInsensitivity, new { @class = "form-control" })
+                @Html.LabelFor(m => m.PainInsensitivity, new { @class = "" })
+                @Html.TextBoxFor(m => m.PainInsensitivity, new { @class = "form-control" })
+            </div>
+            <div class="form-group">
+                <div class="input-group flex-nowrap">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="addon-wrapping">Lots count</span>
+                    </div>
+                    @Html.TextBoxFor(m => m.LotCount, new { @class = "form-control", placeholder = "url" })
+                </div>
+            </div>
+            <button type="submit" value="Отправить" class="btn btn-success">Отправить</button>
+        }
+    </div>
+    <div class="col"></div>
+</div>

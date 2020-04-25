@@ -1,61 +1,65 @@
 ﻿@using System.Web.UI.WebControls
 @using Battlegrid.ru.Models
-@model Battlegrid.ru.Models.AllPostsModel
+@model AllPostsModel
 
 
 @{
     ViewBag.Title = "Блог";
-    bool auth = false;
+    var auth = false;
 }
 
-@if (Request.IsAuthenticated) {
+@if (Request.IsAuthenticated)
+{
     auth = true;
 }
 <dl class="container">
 
     @if (auth && User.IsInRole("admin"))
     {
-        
-    <ul class="nav navbar-nav mt-3">
-        <li class="col-2"></li>
-        <li class="row">@Html.ActionLink("Новый пост", "NewPost", "Blog", null, new { @class = "mx-2 btn btn-success " })</li>
-        <li class="col-2"></li>
-    </ul>     
-            
-        
+        <ul class="nav navbar-nav mt-3">
+            <li class="col-2"></li>
+            <li class="row">@Html.ActionLink("Новый пост", "NewPost", "Blog", null, new {@class = "mx-2 btn btn-success "})</li>
+            <li class="col-2"></li>
+        </ul>
     }
-        <br />
+    <br/>
     <h2 class="">Блог разработки <span class="badge badge-secondary">Blog</span></h2>
-    <br />
+    <br/>
     <div class="list-group">
-        @foreach (var post in Model.AllPosts) {
-        <div class="card mb-3">
-            <img src="@post.ImageUrl" class="card-img-top h-100" alt="@post.Label">
-            <div class="float-lg-right justify-content-end"> <small class="badge badge-dark p-2 m-2">@Model.AllAuthors.First(p => p.Id == post.Author).UserName</small></div>
-            <div class="card-body">
-                <h5 class="card-title">@post.Label</h5>
-                <p class="card-text">@post.Text</p>
-                <p class="card-text"><small class="text-muted">@post.CreationTime.ToString("MM.MM hh:mm")</small><small class="text-danger"> Likes(@post.Likes) </small><small class="text-muted"> Views(@post.Views) </small></p>
-            </div>
-            <div class="container">
-                @Html.ActionLink("Write comment", "WriteComment", "Blog", new { postId = post.Id }, new { @class = "btn btn-secondary", role = "button", type = "button" })
-                @*<button type="button" class="btn btn-secondary">Write comment</button>*@
-                <button type="button" class="btn btn-secondary dropdown-toggle dropdown-toggle-split" id="dropdownMenuReference" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-reference="parent">
-                    Comments <span class="sr-only">Toggle Dropdown</span>
-                </button>
-                <div class="text-muted" style="max-width: 200px;">
-                    <h6 class="h3">Comments</h6>
-                    @*<button class="dropdown-item" type="button">Action</button>*@
-                    @foreach (Comment comment in post.Comments) {
-                        <p class="">
-                            <span>@Model.AllAuthors.First(a => a.Id == comment.Author)</span>
-                            @comment.Body
-                            <small>@comment.CreationTime Views:@comment.Views Likes:@comment.Likes</small>
-                        </p>
-                    }
+        @foreach (var post in Model.AllPosts)
+        {
+            <div class="card mb-3">
+                <img src="@post.ImageUrl" class="card-img-top h-100" alt="@post.Label">
+                <div class="float-lg-right justify-content-end">
+                    <small class="badge badge-dark p-2 m-2">@Model.AllAuthors.First(p => p.Id == post.Author).UserName</small>
+                </div>
+                <div class="card-body">
+                    <h5 class="card-title">@post.Label</h5>
+                    <p class="card-text">@post.Text</p>
+                    <p class="card-text">
+                        <small class="text-muted">@post.CreationTime.ToString("MM.MM hh:mm")</small><small class="text-danger"> Likes(@post.Likes) </small><small class="text-muted"> Views(@post.Views) </small>
+                    </p>
+                </div>
+                <div class="container">
+                    @Html.ActionLink("Write comment", "WriteComment", "Blog", new {postId = post.Id}, new {@class = "btn btn-secondary", role = "button", type = "button"})
+                    @*<button type="button" class="btn btn-secondary">Write comment</button>*@
+                    <button type="button" class="btn btn-secondary dropdown-toggle dropdown-toggle-split" id="dropdownMenuReference" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-reference="parent">
+                        Comments <span class="sr-only">Toggle Dropdown</span>
+                    </button>
+                    <div class="text-muted" style="max-width: 200px;">
+                        <h6 class="h3">Comments</h6>
+                        @*<button class="dropdown-item" type="button">Action</button>*@
+                        @foreach (var comment in post.Comments)
+                        {
+                            <p class="">
+                                <span>@Model.AllAuthors.First(a => a.Id == comment.Author)</span>
+                                @comment.Body
+                                <small>@comment.CreationTime Views:@comment.Views Likes:@comment.Likes</small>
+                            </p>
+                        }
+                    </div>
                 </div>
             </div>
-        </div>
             <br/>
         }
     </div>
