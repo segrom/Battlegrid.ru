@@ -5,6 +5,7 @@ using System.Web.Mvc;
 using Battlegrid.ru.Models;
 using Battlegrid.ru.Utils;
 using BGS.Models;
+using Microsoft.AspNet.Identity;
 
 namespace Battlegrid.ru.Controllers
 {
@@ -60,13 +61,28 @@ namespace Battlegrid.ru.Controllers
             {
                 using (var db = new BGS_DBContext())
                 {
+                    string userIdentityId = User.Identity.GetUserId();
+                    var seller = db.Users.Single(u => u.Id == userIdentityId);
                     for (int i = 0; i < model.LotCount; i++)
                     {
                         UnitModel newUnitModel = GameUtilCreater.UnitModelFromModel(model);
                         db.UnitModels.Add(newUnitModel);
+                        db.SaveChanges();
+                        var lot = new LotModel()
+                        {
+                            Seller = seller,
+                            ItemId = newUnitModel.Id,
+                            Price = model.Price,
+                            SellerId = seller.GameId,
+                            Status = LotStatus.Available,
+                            Type = LotType.Unit
+                        };
+                        db.LotModels.Add(lot);
+                        db.SaveChanges();
+                        newUnitModel.LotId = lot.Id;
                     }
-
                     db.SaveChanges();
+                    return RedirectToAction("Index", "Market");
                 }
             }
             ModelState.AddModelError("", "Что то не правильно");

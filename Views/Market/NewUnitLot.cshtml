@@ -56,11 +56,13 @@
                 @Html.TextBoxFor(m => m.PainInsensitivity, new { @class = "form-control" })
             </div>
             <div class="form-group">
+                @Html.LabelFor(m => m.Price, new { @class = "" })
+                @Html.TextBoxFor(m => m.Price, new { @class = "form-control" })
                 <div class="input-group flex-nowrap">
                     <div class="input-group-prepend">
                         <span class="input-group-text" id="addon-wrapping">Lots count</span>
                     </div>
-                    @Html.TextBoxFor(m => m.LotCount, new { @class = "form-control", placeholder = "url" })
+                    @Html.TextBoxFor(m => m.LotCount, new { @class = "form-control", placeholder = "Lot count" })
                 </div>
             </div>
             <button type="submit" value="Отправить" class="btn btn-success">Отправить</button>

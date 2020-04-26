@@ -22,7 +22,10 @@
                 <li>@Html.ActionLink("Блог", "Index", "Blog", null, new { @class = "nav-link" })</li>
                 <li>@Html.ActionLink("Информация", "About", "Home", null, new { @class = "nav-link" })</li>
                 <li>@Html.ActionLink("Связаться", "Contact", "Home", null, new { @class = "nav-link" })</li>
-                <li>@Html.ActionLink("Биржа", "Index", "Market", null, new { @class = "nav-link" })</li>
+                @if (Request.IsAuthenticated)
+                {
+                    <li>@Html.ActionLink("Биржа", "Index", "Market", null, new {@class = "nav-link text-warning" })</li>
+                }
             </ul>
             <span class="navbar-text">
                 @Html.Partial("_LoginPartial")
