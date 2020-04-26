@@ -4,29 +4,33 @@
     
 }
 
-    <div class="container">
-        @foreach (var unit in Model.UnitModels) {
+<div class="container ">
+    <h2 class="mt-5">Инвентарь</h2>
+    <div class="d-flex mt-2  align-items-start flex-wrap">
+        @foreach (var unit in Model.UnitModels)
+        {
             <div class="card m-2 shadow-sm" style="width: 18rem;">
                 <img src="https://cdna.artstation.com/p/assets/images/images/004/645/046/large/arseni-nikolaev-cosplay5.jpg?1485255080" class="card-img-top" alt="Unit">
                 <div class="card-body">
                     <h5 class="card-title">@unit.Name @unit.Surname (@unit.Age)</h5>
                     <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">Open</button>
                     <p class="card-text text-break">
-                        Unit characteristics:<br />
-                        @Html.Raw(unit.ToString().Replace("\n", "<br />").Replace("[", "<span class=\"badge badge-pill badge-dark\">").Replace("]","</span>"))
+                        Unit characteristics:<br/>
+                        @Html.Raw(unit.ToString().Replace("\n", "<br />").Replace("[", "<span class=\"badge badge-pill badge-dark\">").Replace("]", "</span>"))
                     </p>
                     <div class="collapse" id="collapseExample">
                         <p>
-                            Specialization:<br />
+                            Specialization:<br/>
                             @Html.Raw(unit.Specialization.ToString().Replace("\n", "<br />").Replace("[", "<span class=\"badge badge-pill badge-dark\">").Replace("]", "</span>"))
                         </p>
                     </div>
                 </div>
             </div>
         }
-        @foreach (var armor in Model.ArmorModels) {
+        @foreach (var armor in Model.ArmorModels)
+        {
             <div class="card m-2" style="width: 18rem;">
-                <img src="https://forum.escapefromtarkov.com/uploads/monthly_2017_04/escape_from_tarkov_wallpaper_1600.thumb.jpg.963e4b6d648cc3732227d7ef5f654b92.jpg" class="card-img-top" alt="Unit">
+                <img src="https://qph.fs.quoracdn.net/main-qimg-b92fe75d64ee87f15ce855064e5cf816.webp" class="card-img-top" alt="Unit">
                 <div class="card-body">
                     <h5 class="card-title">"@armor.Item" @armor.Purpose (@armor.Type)</h5>
                     <p class="card-text">
@@ -36,58 +40,82 @@
                 </div>
             </div>
         }
-        @foreach (var weapon in Model.WeaponModels) {
+        @foreach (var weapon in Model.WeaponModels)
+        {
             <div class="card m-2" style="width: 18rem;">
-                <img src="..." class="card-img-top" alt="Weapon">
+                <img src="https://www.callofduty.com/content/dam/atvi/callofduty/cod-touchui/warzone/strategy-guide/pro-tips/03-tips/TIP-03C-WEAPONS-004.jpg" class="card-img-top" alt="Weapon">
                 <div class="card-body">
                     <h5 class="card-title">"@weapon.Item" (@weapon.Type)</h5>
                     <p class="card-text">
-                        Modifications: <br />
-                        AimModification: @weapon.AimModification.Item <br />
-                        BarrelModification: @weapon.BarrelModification.Item <br />
-                        ButtModification: @weapon.ButtModification.Item<br /> 
-                        ButtModification @weapon.ButtModification.Item <br />
-                        Weapon description:<br />
+                        Modifications: <br/>
+                        AimModification:
+                        @if (weapon.AimModification != null)
+                        {<span class="badge badge-pill badge-dark">@weapon.AimModification.Item.ToString()</span>}
+                        else
+                        {<span class="badge badge-pill badge-dark">None</span>}
+                        <br/>
+                        BarrelModification:
+                        @if (weapon.BarrelModification != null)
+                        {<span class="badge badge-pill badge-dark">@weapon.BarrelModification.Item.ToString()</span>}
+                        else
+                        {<span class="badge badge-pill badge-dark">None</span>}
+                        <br/>
+                        ButtModification:
+                        @if (weapon.ButtModification != null)
+                        {<span class="badge badge-pill badge-dark">@weapon.ButtModification.Item.ToString()</span>}
+                        else
+                        {<span class="badge badge-pill badge-dark">None</span>}
+                        <br/>
+                        MagazineModification:
+                        @if (weapon.MagazineModification != null)
+                        {<span class="badge badge-pill badge-dark">@weapon.MagazineModification.Item.ToString()</span>}
+                        else
+                        {<span class="badge badge-pill badge-dark">None</span>}
+                        <br/>
+                        Weapon description:<br/>
                     </p>
                     <a href="#" class="btn btn-primary">Open</a>
                 </div>
             </div>
         }
-        @foreach (var storage in Model.StorageModels) {
+        @foreach (var storage in Model.StorageModels)
+        {
             <div class="card m-2" style="width: 18rem;">
                 <img src="..." class="card-img-top" alt="Unit">
                 <div class="card-body">
                     <h5 class="card-title">"@storage.Item" (@storage.Type)</h5>
                     <p class="card-text">
-                        Storage description<br />
+                        Storage description<br/>
                     </p>
                     <a href="#" class="btn btn-primary">Open</a>
                 </div>
             </div>
-         }
-        @foreach (var accessory in Model.AccessoryModels) {
+        }
+        @foreach (var accessory in Model.AccessoryModels)
+        {
             <div class="card m-2" style="width: 18rem;">
                 <img src="..." class="card-img-top" alt="Unit">
                 <div class="card-body">
                     <h5 class="card-title">"@accessory.Item" (@accessory.Type)</h5>
                     <p class="card-text">
-                        Accessory description<br />
+                        Accessory description<br/>
                     </p>
                     <a href="#" class="btn btn-primary">Open</a>
                 </div>
             </div>
         }
         @*@foreach (var weapon in Model.MeleeWeaponModels) {
-            <div class="card" style="width: 18rem;">
-                <img src="..." class="card-img-top" alt="Unit">
-                <div class="card-body">
-                    <h5 class="card-title">"@weapon.Item"</h5>
-                    <p class="card-text">
-                        Melee weapon description
-                    </p>
-                    <a href="#" class="btn btn-primary">Open</a>
+                <div class="card" style="width: 18rem;">
+                    <img src="..." class="card-img-top" alt="Unit">
+                    <div class="card-body">
+                        <h5 class="card-title">"@weapon.Item"</h5>
+                        <p class="card-text">
+                            Melee weapon description
+                        </p>
+                        <a href="#" class="btn btn-primary">Open</a>
+                    </div>
                 </div>
-            </div>
-        }*@
+            }*@
 
     </div>
+</div>

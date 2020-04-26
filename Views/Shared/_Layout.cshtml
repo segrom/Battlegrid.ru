@@ -10,29 +10,29 @@
 
 </head>
 <body>
-
-    <nav class="navbar navbar-expand-md navbar-dark bg-dark box-shadow" role="navigation" >
-        @Html.ActionLink("Battle Grid", "Index", "Home", new {area = ""}, new {@class = "navbar-brand"})
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarText">
-            <ul class="navbar-nav mr-auto">
-                <li>@Html.ActionLink("Домашняя страница", "Index", "Home", null, new { @class = "nav-link" })</li>
-                <li>@Html.ActionLink("Блог", "Index", "Blog", null, new { @class = "nav-link" })</li>
-                <li>@Html.ActionLink("Информация", "About", "Home", null, new { @class = "nav-link" })</li>
-                <li>@Html.ActionLink("Связаться", "Contact", "Home", null, new { @class = "nav-link" })</li>
-                @if (Request.IsAuthenticated)
-                {
-                    <li>@Html.ActionLink("Биржа", "Index", "Market", null, new {@class = "nav-link text-warning" })</li>
-                    <li>@Html.ActionLink("Инвентарь", "Index", "Inventory", null, new {@class = "nav-link text-warning" })</li>
-                }
-            </ul>
-            <span class="navbar-text">
-                @Html.Partial("_LoginPartial")
-            </span>
-        </div>
-    </nav>
+    <div class="container">
+        <nav class="navbar fixed-top navbar-expand-xl navbar-dark bg-dark box-shadow" role="navigation">
+            @Html.ActionLink("Battle Grid", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarText">
+                <ul class="navbar-nav mr-auto">
+                    <li>@Html.ActionLink("Домашняя страница", "Index", "Home", null, new { @class = "nav-link" })</li>
+                    <li>@Html.ActionLink("Блог", "Index", "Blog", null, new { @class = "nav-link" })</li>
+                    <li>@Html.ActionLink("Информация", "About", "Home", null, new { @class = "nav-link" })</li>
+                    <li>@Html.ActionLink("Связаться", "Contact", "Home", null, new { @class = "nav-link" })</li>
+                    @if (Request.IsAuthenticated) {
+                        <li>@Html.ActionLink("Биржа", "Index", "Market", null, new { @class = "nav-link text-warning" })</li>
+                        <li>@Html.ActionLink("Инвентарь", "Index", "Inventory", null, new { @class = "nav-link text-warning" })</li>
+                    }
+                </ul>
+                <span class="navbar-text">
+                    @Html.Partial("_LoginPartial")
+                </span>
+            </div>
+        </nav>
+    </div>
 <main role="main">
     @RenderBody()
 </main>
