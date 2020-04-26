@@ -118,7 +118,7 @@ namespace Battlegrid.ru.Controllers
                 if (user.AccountBalance - lot.Price > 0)
                 {
                     lot.Status = LotStatus.Closed;
-                    // Определение покупателя for lot
+                    lot.BuyerId = user.GameId;
                     switch (lot.Type)
                     {
                         case LotType.Unit: 
