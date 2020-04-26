@@ -94,7 +94,8 @@ namespace Battlegrid.ru.Controllers
                 foreach (string author in authors)
                 {
 
-                    allAuth.Add(idb.Users.First(u => u.Id == author));
+                    var autor = idb.Users.FirstOrDefault(u => u.Id == author);
+                    if (autor != null) allAuth.Add(autor);
                 }
 
                 model.AllAuthors = allAuth.ToArray();
@@ -123,7 +124,8 @@ namespace Battlegrid.ru.Controllers
                     foreach (string author in authors)
                     {
 
-                        allAuth.Add(idb.Users.First(u => u.Id == author));
+                        var autor = idb.Users.FirstOrDefault(u => u.Id == author);
+                        if (autor != null) allAuth.Add(autor);
                     }
 
                     model.AllAuthors = allAuth.ToArray();

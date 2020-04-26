@@ -7,7 +7,17 @@
 <br/>
 <div class="card mb-3">
     <img src="@post.ImageUrl" class="card-img-top h-100" alt="@post.Label">
-    <div class="float-lg-right justify-content-end"> <small class="badge badge-dark p-2 m-2">@Model.AllAuthors.First(p => p.Id == post.Author).UserName</small></div>
+    <div class="float-lg-right justify-content-end">
+        @if (Model.AllAuthors.FirstOrDefault(p => p.Id == post.Author)!=null)
+        {
+        <small class="badge badge-dark p-2 m-2">@Model.AllAuthors.First(p => p.Id == post.Author).UserName</small>
+        }
+        else
+        {
+        <small class="badge badge-dark p-2 m-2">Deleted</small>
+        }
+        
+    </div>
     <div class="card-body">
         <h5 class="card-title">@post.Label</h5>
         <p class="card-text">@post.Text</p>
@@ -26,13 +36,19 @@
     }
     <br />
     @foreach (Comment comment in post.Comments) {
-        <div class="card">
-            <span> @Model.AllAuthors.First(a => a.Id == comment.Author).UserName </span>
-            <div class="card-body">
-                @comment.Body
-            </div>
-            <small>@comment.CreationTime Views:@comment.Views Likes:@comment.Likes</small>
-        </div>
+<div class="card">
+    @if (Model.AllAuthors.FirstOrDefault(a => a.Id == comment.Author)!=null) {
+        <span> @Model.AllAuthors.First(a => a.Id == comment.Author).UserName </span>
+    }
+    else {
+        <span> Deleted </span>
+    }
+
+    <div class="card-body">
+        @comment.Body
+    </div>
+    <small>@comment.CreationTime Views:@comment.Views Likes:@comment.Likes</small>
+</div>
         <br />
     }
 </div>
