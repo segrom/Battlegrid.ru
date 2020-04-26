@@ -4,7 +4,7 @@ using BGS.Models;
 namespace Battlegrid.ru.Models
 {
     public class AllLots
-    {[Range(typeof(float), "0", "1",ErrorMessage = "float значение от 0 до 1")] 
+    {
         public LotModel[] Last100Lots { get; set; }
         public UnitModel[] LotUnits { get; set; }
         public WeaponModel[] LotWeapons { get; set; }
@@ -15,6 +15,7 @@ namespace Battlegrid.ru.Models
         public AimModificationModel[] AimModificationModels { get; set; }
         public ArmorModel[] LotArmors { get; set; }
     }
+
 
     public class NewUnitLotModel
     {
