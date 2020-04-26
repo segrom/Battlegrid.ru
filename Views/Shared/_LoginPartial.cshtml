@@ -1,26 +1,32 @@
 ﻿@using Microsoft.AspNet.Identity
 @if (Request.IsAuthenticated)
 {
-    using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", @class = "nav navbar-nav navbar-right" }))
+    using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new {id = "logoutForm", @class = "nav navbar-nav navbar-right m-1" }))
     {
-    @Html.AntiForgeryToken()
+        @Html.AntiForgeryToken()
 
-<ul class="nav navbar-nav navbar-right">
-    @if (User.IsInRole("admin")) {
-        <li>@Html.ActionLink("Новый пост", "NewPost", "Blog", null, new { @class = "btn btn-outline-success text-success mx-3" })</li>
-
-    }
-    <li>
-        @Html.ActionLink(User.Identity.GetUserName(), "Index", "Manage", routeValues: null, htmlAttributes: new { title = "Manage", @class = "btn btn-outline-light", role = "button" })
-    </li>
-    <li><a href="javascript:document.getElementById('logoutForm').submit()" class="btn btn-link">Выйти</a></li>
-</ul>
+        <ul class="nav navbar-nav navbar-right">
+            @if (User.IsInRole("admin"))
+            {
+                <li>@Html.ActionLink("Новый пост", "NewPost", "Blog", null, new {@class = "btn btn-outline-success text-success m-1 mx-3" })</li>
+            }
+            <li>
+                @Html.ActionLink(User.Identity.GetUserName(), "Index", "Manage", null, new {title = "Manage", @class = "btn btn-outline-light m-1", role = "button"})
+            </li>
+            <li>
+                <a href="javascript:document.getElementById('logoutForm').submit()" class="btn btn-link">Выйти</a>
+            </li>
+            
+            <li>
+                @Html.Action("GerUserBalance","Market")
+            </li>
+        </ul>
     }
 }
 else
 {
     <ul class="nav navbar-nav navbar-right">
-        <li>@Html.ActionLink("Зарегистрироваться", "Register", "Account", routeValues: null, htmlAttributes: new { id = "registerLink",@class="btn btn-link" })</li>
-        <li>@Html.ActionLink("Войти", "Login", "Account", routeValues: null, htmlAttributes: new { id = "loginLink", @class= "btn btn-outline-light", role="button" })</li>
+        <li>@Html.ActionLink("Зарегистрироваться", "Register", "Account", null, new {id = "registerLink", @class = "btn btn-link"})</li>
+        <li>@Html.ActionLink("Войти", "Login", "Account", null, new {id = "loginLink", @class = "btn btn-outline-light", role = "button"})</li>
     </ul>
 }

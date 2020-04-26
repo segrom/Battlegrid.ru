@@ -53,6 +53,22 @@ namespace Battlegrid.ru.Controllers
             var model = new NewUnitLotModel();
             return View(model);
         }
+        //GET
+        [Authorize]
+        public ActionResult GerUserBalance()
+        {
+            using (var db = new BGS_DBContext())
+            {
+                var id = User.Identity.GetUserId();
+                float balance = db.Users.Single(u => u.Id == id).AccountBalance;
+
+                return new ContentResult()
+                {
+                    Content = $"<a href=\"#\" class=\"btn btn-link m-1 bg-light text-success\">{balance.ToString()}$4<a/>",
+                    ContentType = "text/html"
+                };
+            }
+        }
         //POST
         [HttpPost]
         [Authorize(Roles = "admin")]
