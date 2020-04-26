@@ -3,76 +3,138 @@
 @model Battlegrid.ru.Models.AllLots
 @{
     ViewBag.Title = "Market";
-    var marketUser = new User {Name = "Market"};
+    var marketUser = new User { Name = "Market" };
     var auth = Request.IsAuthenticated;
 }
+    <div style="position: absolute; ">
+        @if (ViewBag.error != null) {
+            <div class="toast" role="alert" aria-live="assertive" aria-atomic="true" data-autohide="false">
+                <div class="toast-header">
+                    <img src="" class="rounded mr-2" alt="Alert">
+                    <strong class="mr-auto text-danger">Error</strong>
+                    <small>Now</small>
+                    <button type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="toast-body text-danger">
+                    @ViewBag.error
+                </div>
+            </div>
 
-    <main class="container">
-        @if (auth && User.IsInRole("admin"))
-        {
-
-            <ul class="nav  mt-3">
-                <li class="nav-item">@Html.ActionLink("Создать лоты юнитов", "NewUnitLot", "Market", null, new {@class = "mx-2 btn btn-success "})</li>
-                <li class="nav-item">@Html.ActionLink("Создать лоты оружия", "NewPost", "Blog", null, new {@class = "mx-2 btn btn-success "})</li>
-                <li class="nav-item">@Html.ActionLink("Создать лоты брони", "NewPost", "Blog", null, new {@class = "mx-2 btn btn-success "})</li>
-                <li class="nav-item">@Html.ActionLink("Создать лоты модификаций", "NewPost", "Blog", null, new {@class = "mx-2 btn btn-success "})</li>
-                <li class="nav-item">@Html.ActionLink("Создать лоты Хранилиц", "NewPost", "Blog", null, new {@class = "mx-2 btn btn-success "})</li>
-            </ul>
         }
-        <div class="col"></div>
-        <div class="col">
-            @foreach (var lot in Model.Last100Lots) {
-                <div class="card my-2">
-                    @{
-                        string header = "", body = "", footer = "";
-                        if (lot.SellerId == 0) {
-                            lot.Seller = marketUser;
-                        }
-                        switch (lot.Type) {
-                            case LotType.Unit:
-                                var unit = Model.LotUnits.Single(u => u.LotId == lot.Id);
-                                header = $"Unit {unit.Name} {unit.Surname} {unit.Age}yo --- Price: {lot.Price}$4";
-                                body = $"Unit lot {unit.Name} {unit.Surname} {unit.Age}yo.          \n" +
-                                       $"Specialization {unit.Specialization} with {unit.Specialization.Skills.Count} skills.";
-                                footer = $"Seller: {lot.Seller.Name}/ Lot status: {lot.Status.ToString()}";
-                                break;
-                            case LotType.Armor:
-                                var armor = Model.LotArmors.Single(u => u.LotId == lot.Id);
-                                header = $"Armor \"{armor.Item.ToString()}\" ({armor.Type.ToString()}) --- Price: {lot.Price}$4";
-                                body = $"{armor.Purpose.ToString()} armor \"{armor.Item.ToString()}\" Type:({armor.Type.ToString()})";
-                                footer = $"Seller: {lot.Seller.Name}/ Lot status: {lot.Status.ToString()}";
-                                break;
-                            case LotType.Weapon:
-                                var weapon = Model.LotWeapons.Single(u => u.LotId == lot.Id);
-                                header = $"Weapon \"{weapon.Item.ToString()}\" ({weapon.Type.ToString()}) --- Price: {lot.Price}$4";
-                                body = $"Weapon \"{weapon.Item.ToString()}\" Type:({weapon.Type.ToString()})\n" +
-                                       $"Aim mod: {weapon.AimModification}\n" +
-                                       $"Magazine mod: {weapon.MagazineModification}\n" +
-                                       $"Barrel mod: {weapon.BarrelModification}\n" +
-                                       $"Butt mod: {weapon.ButtModification}\n";
-                                footer = $"Seller: {lot.Seller.Name}/ Lot status: {lot.Status.ToString()}";
-                                break;
-                            case LotType.Accessory:
-                                var accessory = Model.LotAccessoryes.Single(u => u.LotId == lot.Id);
-                                header = $"Armor \"{accessory.Item.ToString()}\" ({accessory.Type.ToString()}) --- Price: {lot.Price}$4";
-                                body = $"Accessory \"{accessory.Item.ToString()}\" Type:({accessory.Type.ToString()})";
-                                footer = $"Seller: {lot.Seller.Name}/ Lot status: {lot.Status.ToString()}";
-                                break;
-                        }
+        @if (ViewBag.buy != null) {
+            <div class="toast" role="alert" aria-live="assertive" aria-atomic="true" data-autohide="false">
+                <div class="toast-header">
+                    <img src="" class="rounded mr-2" alt="SuccessBuy">
+                    <strong class="mr-auto text-success">Success buy</strong>
+                    <small>Now</small>
+                    <button type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="toast-body text-success">
+                    @ViewBag.error
+                </div>
+            </div>
+        }
+    </div>
+<main class="container">
+    @if (auth && User.IsInRole("admin")) {
+
+        <ul class="nav  mt-3">
+            <li class="nav-item">@Html.ActionLink("Создать лоты юнитов", "NewUnitLot", "Market", null, new { @class = "mx-2 btn btn-success " })</li>
+            <li class="nav-item">@Html.ActionLink("Создать лоты оружия", "NewPost", "Blog", null, new { @class = "mx-2 btn btn-success " })</li>
+            <li class="nav-item">@Html.ActionLink("Создать лоты брони", "NewPost", "Blog", null, new { @class = "mx-2 btn btn-success " })</li>
+            <li class="nav-item">@Html.ActionLink("Создать лоты модификаций", "NewPost", "Blog", null, new { @class = "mx-2 btn btn-success " })</li>
+            <li class="nav-item">@Html.ActionLink("Создать лоты Хранилиц", "NewPost", "Blog", null, new { @class = "mx-2 btn btn-success " })</li>
+        </ul>
+    }
+    <div class="col"></div>
+    <div class="col">
+        @foreach (var lot in Model.Last100Lots) {
+            <div class="card my-2">
+                @{
+                    string lotWId = "MODAL_" + lot.Id.ToString();
+                }
+                <div class="btn-group" role="group" aria-label="Basic example">
+                    <button type="button" class="btn btn-success" data-toggle="modal" data-target="#@lotWId">
+                        Buy
+                    </button>
+                </div>
+                @{
+                    string header = "", body = "", footer = "";
+                    if (lot.SellerId == 0) {
+                        lot.Seller = marketUser;
                     }
-                    <div class="card-header">
-                        @header
-                    </div>
-                    <div class="card-body">
-                        <blockquote class="blockquote mb-0">
-                            <p>@body</p>
-                            <footer class="blockquote-footer">
-                                @footer <cite title="@lot.Price" class="text-success">@lot.Price $4</cite>
-                            </footer>
-                        </blockquote>
+                    switch (lot.Type) {
+                        case LotType.Unit:
+                            var unit = Model.LotUnits.Single(u => u.LotId == lot.Id);
+                            header = $"Unit {unit.Name} {unit.Surname} {unit.Age}yo --- Price: {lot.Price}$4";
+                            body = $"Unit lot {unit.Name} {unit.Surname} {unit.Age}yo.          \n" +
+                                   $"Specialization {unit.Specialization} with {unit.Specialization.Skills.Count} skills.";
+                            footer = $"Seller: {lot.Seller.Name}/ Lot status: {lot.Status.ToString()}";
+                            break;
+                        case LotType.Armor:
+                            var armor = Model.LotArmors.Single(u => u.LotId == lot.Id);
+                            header = $"Armor \"{armor.Item.ToString()}\" ({armor.Type.ToString()}) --- Price: {lot.Price}$4";
+                            body = $"{armor.Purpose.ToString()} armor \"{armor.Item.ToString()}\" Type:({armor.Type.ToString()})";
+                            footer = $"Seller: {lot.Seller.Name}/ Lot status: {lot.Status.ToString()}";
+                            break;
+                        case LotType.Weapon:
+                            var weapon = Model.LotWeapons.Single(u => u.LotId == lot.Id);
+                            header = $"Weapon \"{weapon.Item.ToString()}\" ({weapon.Type.ToString()}) --- Price: {lot.Price}$4";
+                            body = $"Weapon \"{weapon.Item.ToString()}\" Type:({weapon.Type.ToString()})\n" +
+                                   $"Aim mod: {weapon.AimModification}\n" +
+                                   $"Magazine mod: {weapon.MagazineModification}\n" +
+                                   $"Barrel mod: {weapon.BarrelModification}\n" +
+                                   $"Butt mod: {weapon.ButtModification}\n";
+                            footer = $"Seller: {lot.Seller.Name}/ Lot status: {lot.Status.ToString()}";
+                            break;
+                        case LotType.Accessory:
+                            var accessory = Model.LotAccessoryes.Single(u => u.LotId == lot.Id);
+                            header = $"Armor \"{accessory.Item.ToString()}\" ({accessory.Type.ToString()}) --- Price: {lot.Price}$4";
+                            body = $"Accessory \"{accessory.Item.ToString()}\" Type:({accessory.Type.ToString()})";
+                            footer = $"Seller: {lot.Seller.Name}/ Lot status: {lot.Status.ToString()}";
+                            break;
+                    }
+                }
+                <div class="card-header">
+                    @header
+                </div>
+                <div class="card-body">
+                    <blockquote class="blockquote mb-0">
+                        <p>@body</p>
+                        <footer class="blockquote-footer">
+                            @footer <cite title="@lot.Price" class="text-success">@lot.Price $4</cite>
+                        </footer>
+                    </blockquote>
+                </div>
+            </div>
+            <div class="modal fade" id="@lotWId" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="staticBackdropLabel">Вы уверены что хотите приобрести лот <span class="badge badge-info">#@lot.Id</span> ?</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            Вы уверены что хотите приобрести лот <span class="badge badge-info">#@lot.Id</span> ? <br />
+                            В его состав входит:<br />
+                            @header
+                            <br />
+                            <p class="bg-warning h3 p-2 rounded-sm">Цена лота - @lot.Price $4</p>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-danger" data-dismiss="modal">No</button>
+                            @Html.ActionLink("Yes", "BuyLot", "Market", new { lotId = lot.Id }, new { @class = "btn btn-success", role = "button", type = "button" })
+                        </div>
                     </div>
                 </div>
-            }
-        </div>
-        <div class="col"></div>
-    </main>
+            </div>
+        }
+    </div>
+    <div class="col"></div>
+</main>

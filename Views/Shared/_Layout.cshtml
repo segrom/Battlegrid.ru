@@ -33,7 +33,7 @@
             </div>
         </nav>
     </div>
-<main class="mt-xl-3" role="main">
+<main class="mt-xl-5" role="main">
     @RenderBody()
 </main>
     <hr/>
@@ -48,5 +48,6 @@
 @Scripts.Render("~/Scripts/popper.min.js")
 @Scripts.Render("~/bundles/bootstrap")
 @RenderSection("scripts", required: false)
+<script>$(document).ready(function () { $('.toast').toast('show').delay(10000).toast('hide');}); </script>
 </body>
 </html>

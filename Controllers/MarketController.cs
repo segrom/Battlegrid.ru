@@ -12,8 +12,11 @@ namespace Battlegrid.ru.Controllers
     public class MarketController : Controller
     {
         // GET
-        public ActionResult Index()
+        [Authorize]
+        public ActionResult Index(string error,string buy)
         {
+            if (error != null) ViewBag.error = error;
+            if (buy != null) ViewBag.buy = buy;
             var model = new AllLots();
             List<UnitModel> unitModels = new List<UnitModel>();
             List<WeaponModel> weaponModels = new List<WeaponModel>();
@@ -21,7 +24,7 @@ namespace Battlegrid.ru.Controllers
             List<AccessoryModel> accessoryModels = new List<AccessoryModel>();
             using (var db = new BGS_DBContext())
             {
-                var last100lots = db.LotModels.Include(u=>u.Seller).OrderByDescending(u => u.Id).Take(100).ToArray();
+                var last100lots = db.LotModels.Where(l=>l.Status==LotStatus.Available).Include(u=>u.Seller).OrderByDescending(u => u.Id).Take(100).ToArray();
                 foreach (LotModel lot in last100lots)
                 {
                     switch (lot.Type)
@@ -103,6 +106,59 @@ namespace Battlegrid.ru.Controllers
             }
             ModelState.AddModelError("", "Что то не правильно");
             return View(model);
+        }
+        [Authorize]
+        public ActionResult BuyLot(int lotId)
+        {
+            using (var db = new BGS_DBContext())
+            {
+                var id = User.Identity.GetUserId();
+                var lot = db.LotModels.Single(p => p.Id == lotId);
+                User user = db.Users.Single(u => u.Id == id);
+                if (user.AccountBalance - lot.Price > 0)
+                {
+                    lot.Status = LotStatus.Closed;
+                    // Определение покупателя for lot
+                    switch (lot.Type)
+                    {
+                        case LotType.Unit: 
+                            UnitModel unitModel = db.UnitModels.Single(u => u.LotId == lotId);
+                            unitModel.LotId = null;
+                            unitModel.Owner = user;
+                            break;
+                        case LotType.Armor: 
+                            ArmorModel armorModel = db.ArmorModels.Single(u => u.LotId == lotId);
+                            armorModel.LotId = null;
+                            armorModel.Owner = user;
+                            break;
+                        case LotType.Accessory: 
+                            AccessoryModel accessoryModel = db.AccessoryModels.Single(u => u.LotId == lotId);
+                            accessoryModel.LotId = null;
+                            accessoryModel.Owner = user;
+                            break;
+                        case LotType.Weapon: 
+                            WeaponModel weaponModel = db.WeaponModels.Single(u => u.LotId == lotId);
+                            weaponModel.LotId = null;
+                            weaponModel.Owner = user;
+                            break;
+                        case LotType.Storage:
+                            StorageModel storageModel = db.StorageModels.Single(u => u.LotId == lotId);
+                            storageModel.LotId = null;
+                            storageModel.Owner = user;
+                            break;
+                    }
+                    user.AccountBalance -= lot.Price;
+                    db.SaveChanges();
+                    return RedirectToAction("Index", "Market",
+                        new { buy = $"Лот #{lot.Id} успешно куплен за {lot.Price}$4" });
+                }
+                else
+                {
+                    return RedirectToAction("Index", "Market",
+                        new {error = "У вас не хватает средств для этой покупки"});
+                }
+            }
+
         }
     }
 }

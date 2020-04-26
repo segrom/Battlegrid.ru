@@ -14,18 +14,18 @@
                 <div class="card-body">
                     <h5 class="card-title">@unit.Name @unit.Surname (@unit.Age)</h5>
                     <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">Open</button>
-                    <p class="card-text text-break">
-                        Unit characteristics:<br/>
-                        @Html.Raw(unit.ToString().Replace("\n", "<br />").Replace("[", "<span class=\"badge badge-pill badge-dark\">").Replace("]", "</span>"))
-                    </p>
-                    <div class="collapse" id="collapseExample">
-                        <p>
-                            Specialization:<br/>
-                            @Html.Raw(unit.Specialization.ToString().Replace("\n", "<br />").Replace("[", "<span class=\"badge badge-pill badge-dark\">").Replace("]", "</span>"))
+                        <p class="card-text text-break">
+                            Unit characteristics:<br />
+                            @Html.Raw(unit.ToString().Replace("\n", "<br />").Replace("[", "<span class=\"badge badge-pill badge-dark\">").Replace("]", "</span>"))
                         </p>
+                        <div class="collapse" id="collapseExample">
+                            <p>
+                                Specialization:<br />
+                                @Html.Raw(unit.Specialization.ToString().Replace("\n", "<br />").Replace("[", "<span class=\"badge badge-pill badge-dark\">").Replace("]", "</span>"))
+                            </p>
+                        </div>
                     </div>
                 </div>
-            </div>
         }
         @foreach (var armor in Model.ArmorModels)
         {

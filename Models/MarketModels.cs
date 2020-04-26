@@ -46,4 +46,8 @@ namespace Battlegrid.ru.Models
 
     }
 
+    public class BuyLotViewModel
+    {
+        private bool acceptConsent { get; set; }
+    }
 }
