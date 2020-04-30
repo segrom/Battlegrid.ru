@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web.Mvc;
 using Battlegrid.ru.Models;
 using Battlegrid.ru.Utils;
+using BGS.GameCore;
 using BGS.Models;
 using Microsoft.AspNet.Identity;
 
@@ -18,10 +19,15 @@ namespace Battlegrid.ru.Controllers
             if (error != null) ViewBag.error = error;
             if (buy != null) ViewBag.buy = buy;
             var model = new AllLots();
+            model.ModificationTypes = new Dictionary<int, ModificationType>();
             List<UnitModel> unitModels = new List<UnitModel>();
             List<WeaponModel> weaponModels = new List<WeaponModel>();
             List<ArmorModel> armorModels = new List<ArmorModel>();
             List<AccessoryModel> accessoryModels = new List<AccessoryModel>();
+            List<AimModificationModel> aimModels = new List<AimModificationModel>();
+            List<MagazineModificationModel> magazineModels = new List<MagazineModificationModel>();
+            List<BarrelModificationModel> barrelModels = new List<BarrelModificationModel>();
+            List<ButtModificationModel> buttModels = new List<ButtModificationModel>();
             using (var db = new BGS_DBContext())
             {
                 var last100lots = db.LotModels.Where(l=>l.Status==LotStatus.Available).Include(u=>u.Seller).OrderByDescending(u => u.Id).Take(100).ToArray();
@@ -38,12 +44,26 @@ namespace Battlegrid.ru.Controllers
                             .SingleOrDefault(u=>u.LotId==lot.Id));break;
                         case LotType.Armor: armorModels.Add(db.ArmorModels.SingleOrDefault(u=>u.LotId==lot.Id));break;
                         case LotType.Accessory: accessoryModels.Add(db.AccessoryModels.SingleOrDefault(u=>u.LotId==lot.Id));break;
+                        case LotType.Modification:
+                            AimModificationModel aim = db.AimModificationModels.SingleOrDefault(u => u.LotId == lot.Id);
+                            MagazineModificationModel magazine = db.MagazineModificationModels.SingleOrDefault(u => u.LotId == lot.Id);
+                            BarrelModificationModel barrel = db.BarrelModificationModels.SingleOrDefault(u => u.LotId == lot.Id);
+                            ButtModificationModel butt = db.ButtModificationModels.SingleOrDefault(u => u.LotId == lot.Id);
+                            if(aim!=null) {aimModels.Add(aim);model.ModificationTypes.Add(lot.Id,ModificationType.Aim);}
+                            if(magazine!=null) {magazineModels.Add(magazine);model.ModificationTypes.Add(lot.Id,ModificationType.Magazine);}
+                            if(butt!=null) {buttModels.Add(butt);model.ModificationTypes.Add(lot.Id,ModificationType.Butt);}
+                            if(barrel!=null) {barrelModels.Add(barrel);model.ModificationTypes.Add(lot.Id,ModificationType.Barrel);}
+                            break;
                     }
                 }
                 model.LotUnits = unitModels.ToArray();
                 model.LotArmors = armorModels.ToArray();
                 model.LotAccessoryes = accessoryModels.ToArray();
                 model.LotWeapons = weaponModels.ToArray();
+                model.AimModificationModels = aimModels.ToArray();
+                model.MagazineModificationModels = magazineModels.ToArray();
+                model.ButtModificationModels = buttModels.ToArray();
+                model.BarrelModificationModels = barrelModels.ToArray();
                 model.Last100Lots = last100lots;
             }
             return View(model);
@@ -189,6 +209,204 @@ namespace Battlegrid.ru.Controllers
                         db.LotModels.Add(lot);
                         db.SaveChanges();
                         newWeaponModelModel.LotId = lot.Id;
+                    }
+                    db.SaveChanges();
+                    return RedirectToAction("Index", "Market");
+                }
+            }
+            ModelState.AddModelError("", "Что то не правильно");
+            return View(model);
+        }
+        [Authorize(Roles = "admin")]
+        public ActionResult NewArmorLot()
+        {
+            var model = new NewArmorLotModel();
+            return View(model);
+        }
+        //POST
+        [HttpPost]
+        [Authorize(Roles = "admin")]
+        public ActionResult NewArmorLot(NewArmorLotModel model) {
+            if (ModelState.IsValid) {
+                using (var db = new BGS_DBContext()) {
+                    string userIdentityId = User.Identity.GetUserId();
+                    var seller = db.Users.Single(u => u.Id == userIdentityId);
+                    for (int i = 0; i < model.LotCount; i++) {
+                        ArmorModel newArmorModelModel = GameUtilCreater.ArmorModelFromModel(model);
+                        db.ArmorModels.Add(newArmorModelModel);
+                        db.SaveChanges();
+                        var lot = new LotModel() {
+                            Seller = seller,
+                            ItemId = newArmorModelModel.Id,
+                            Price = model.Price,
+                            SellerId = seller.GameId,
+                            Status = LotStatus.Available,
+                            Type = LotType.Armor
+                        };
+                        db.LotModels.Add(lot);
+                        db.SaveChanges();
+                        newArmorModelModel.LotId = lot.Id;
+                    }
+                    db.SaveChanges();
+                    return RedirectToAction("Index", "Market");
+                }
+            }
+            ModelState.AddModelError("", "Что то не правильно");
+            return View(model);
+        }
+        [Authorize(Roles = "admin")]
+        public ActionResult NewAccessoryLot() {
+            var model = new NewAccessoryLotModel();
+            return View(model);
+        }
+        //POST
+        [HttpPost]
+        [Authorize(Roles = "admin")]
+        public ActionResult NewAccessoryLot(NewAccessoryLotModel model) {
+            if (ModelState.IsValid) {
+                using (var db = new BGS_DBContext()) {
+                    string userIdentityId = User.Identity.GetUserId();
+                    var seller = db.Users.Single(u => u.Id == userIdentityId);
+                    for (int i = 0; i < model.LotCount; i++) {
+                        AccessoryModel newAccessoryModelModel = GameUtilCreater.AccessoryModelFromModel(model);
+                        db.AccessoryModels.Add(newAccessoryModelModel);
+                        db.SaveChanges();
+                        var lot = new LotModel() {
+                            Seller = seller,
+                            ItemId = newAccessoryModelModel.Id,
+                            Price = model.Price,
+                            SellerId = seller.GameId,
+                            Status = LotStatus.Available,
+                            Type = LotType.Accessory
+                        };
+                        db.LotModels.Add(lot);
+                        db.SaveChanges();
+                        newAccessoryModelModel.LotId = lot.Id;
+                    }
+                    db.SaveChanges();
+                    return RedirectToAction("Index", "Market");
+                }
+            }
+            ModelState.AddModelError("", "Что то не правильно");
+            return View(model);
+        }
+        [Authorize(Roles = "admin")]
+        public ActionResult NewStorageLot() {
+            var model = new NewStorageLotModel();
+            return View(model);
+        }
+        //POST
+        [HttpPost]
+        [Authorize(Roles = "admin")]
+        public ActionResult NewStorageLot(NewStorageLotModel model) {
+            if (ModelState.IsValid) {
+                using (var db = new BGS_DBContext()) {
+                    string userIdentityId = User.Identity.GetUserId();
+                    var seller = db.Users.Single(u => u.Id == userIdentityId);
+                    for (int i = 0; i < model.LotCount; i++) {
+                        StorageModel newStorageModel = GameUtilCreater.StorageModelFromModel(model);
+                        db.StorageModels.Add(newStorageModel);
+                        db.SaveChanges();
+                        var lot = new LotModel() {
+                            Seller = seller,
+                            ItemId = newStorageModel.Id,
+                            Price = model.Price,
+                            SellerId = seller.GameId,
+                            Status = LotStatus.Available,
+                            Type = LotType.Storage
+                        };
+                        db.LotModels.Add(lot);
+                        db.SaveChanges();
+                        newStorageModel.LotId = lot.Id;
+                    }
+                    db.SaveChanges();
+                    return RedirectToAction("Index", "Market");
+                }
+            }
+            ModelState.AddModelError("", "Что то не правильно");
+            return View(model);
+        }
+        [Authorize(Roles = "admin")]
+        public ActionResult NewModificationLot() {
+            var model = new NewModificationLotModel();
+            return View(model);
+        }
+        //POST
+        [HttpPost]
+        [Authorize(Roles = "admin")]
+        public ActionResult NewModificationLot(NewModificationLotModel model) {
+            if (ModelState.IsValid) {
+                using (var db = new BGS_DBContext()) {
+                    string userIdentityId = User.Identity.GetUserId();
+                    var seller = db.Users.Single(u => u.Id == userIdentityId);
+                    for (int i = 0; i < model.LotCount; i++) {
+                        switch (model.Type)
+                        {
+                            case ModificationType.Aim:
+                                AimModificationModel newAimModModel = new AimModificationModel(){Item = model.Item,WeaponType = model.WeaponType};
+                                db.AimModificationModels.Add(newAimModModel);
+                                db.SaveChanges();
+                                var aimLot = new LotModel() {
+                                Seller = seller,
+                                ItemId = newAimModModel.Id,
+                                Price = model.Price,
+                                SellerId = seller.GameId,
+                                Status = LotStatus.Available,
+                                Type = LotType.Modification
+                                };
+                                db.LotModels.Add(aimLot);
+                                db.SaveChanges();
+                                newAimModModel.LotId = aimLot.Id;
+                                break;
+                            case ModificationType.Magazine:
+                                MagazineModificationModel newMagazineModModel = new MagazineModificationModel() { Item = model.Item, WeaponType = model.WeaponType };
+                                db.MagazineModificationModels.Add(newMagazineModModel);
+                                db.SaveChanges();
+                                var maganineLot = new LotModel() {
+                                    Seller = seller,
+                                    ItemId = newMagazineModModel.Id,
+                                    Price = model.Price,
+                                    SellerId = seller.GameId,
+                                    Status = LotStatus.Available,
+                                    Type = LotType.Modification
+                                };
+                                db.LotModels.Add(maganineLot);
+                                db.SaveChanges();
+                                newMagazineModModel.LotId = maganineLot.Id;
+                                break;
+                            case ModificationType.Barrel: 
+                                BarrelModificationModel newBarrelModModel = new BarrelModificationModel() { Item = model.Item, WeaponType = model.WeaponType };
+                                db.BarrelModificationModels.Add(newBarrelModModel);
+                                db.SaveChanges();
+                                var barrelLot = new LotModel() {
+                                    Seller = seller,
+                                    ItemId = newBarrelModModel.Id,
+                                    Price = model.Price,
+                                    SellerId = seller.GameId,
+                                    Status = LotStatus.Available,
+                                    Type = LotType.Modification
+                                };
+                                db.LotModels.Add(barrelLot);
+                                db.SaveChanges();
+                                newBarrelModModel.LotId = barrelLot.Id;
+                                break;
+                            case ModificationType.Butt:
+                                ButtModificationModel newButtModModel = new ButtModificationModel() { Item = model.Item, WeaponType = model.WeaponType };
+                                db.ButtModificationModels.Add(newButtModModel);
+                                db.SaveChanges();
+                                var buttLot = new LotModel() {
+                                    Seller = seller,
+                                    ItemId = newButtModModel.Id,
+                                    Price = model.Price,
+                                    SellerId = seller.GameId,
+                                    Status = LotStatus.Available,
+                                    Type = LotType.Modification
+                                };
+                                db.LotModels.Add(buttLot);
+                                db.SaveChanges();
+                                newButtModModel.LotId = buttLot.Id;
+                                break;
+                        }
                     }
                     db.SaveChanges();
                     return RedirectToAction("Index", "Market");

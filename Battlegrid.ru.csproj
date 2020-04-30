@@ -374,6 +374,10 @@
     <Content Include="Views\Market\NewUnitLot.cshtml" />
     <Content Include="Views\Inventory\Index.cshtml" />
     <Content Include="Views\Market\NewWeaponLot.cshtml" />
+    <Content Include="Views\Market\NewArmorLot.cshtml" />
+    <Content Include="Views\Market\NewAccessoryLot.cshtml" />
+    <Content Include="Views\Market\NewStorageLot.cshtml" />
+    <Content Include="Views\Market\NewModificationLot.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

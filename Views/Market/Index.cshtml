@@ -1,4 +1,5 @@
-﻿@using BGS.Interfaces
+﻿@using BGS.GameCore
+@using BGS.Interfaces
 @using BGS.Models
 @model Battlegrid.ru.Models.AllLots
 @{
@@ -45,9 +46,10 @@
         <ul class="nav  mt-3">
             <li class="nav-item">@Html.ActionLink("Создать лоты юнитов", "NewUnitLot", "Market", null, new { @class = "m-2 btn btn-success " })</li>
             <li class="nav-item">@Html.ActionLink("Создать лоты оружия", "NewWeaponLot", "Market", null, new { @class = "m-2 btn btn-success " })</li>
-            <li class="nav-item">@Html.ActionLink("Создать лоты брони", "NewPost", "Blog", null, new { @class = "m-2 btn btn-success " })</li>
-            <li class="nav-item">@Html.ActionLink("Создать лоты модификаций", "NewPost", "Blog", null, new { @class = "m-2 btn btn-success " })</li>
-            <li class="nav-item">@Html.ActionLink("Создать лоты Хранилиц", "NewPost", "Blog", null, new { @class = "m-2 btn btn-success " })</li>
+            <li class="nav-item">@Html.ActionLink("Создать лоты брони", "NewArmorLot", "Market", null, new { @class = "m-2 btn btn-success " })</li>
+            <li class="nav-item">@Html.ActionLink("Создать лоты модификаций", "NewModificationLot", "Market", null, new { @class = "m-2 btn btn-success " })</li>
+            <li class="nav-item">@Html.ActionLink("Создать лоты хранилиц", "NewStorageLot", "Market", null, new { @class = "m-2 btn btn-success " })</li>
+            <li class="nav-item">@Html.ActionLink("Создать лоты аксессуаров", "NewAccessoryLot", "Market", null, new { @class = "m-2 btn btn-success " })</li>
         </ul>
     }
     <div class="col"></div>
@@ -58,47 +60,75 @@
                     string lotWId = "MODAL_" + lot.Id.ToString();
                 }
                 <div class="btn-group" role="group" aria-label="Basic example">
-                    <button type="button" class="btn btn-success" data-toggle="modal" data-target="#@lotWId">
-                        Buy
-                    </button>
+                    <div class="nav nav-justified">
+                        <button type="button" class="btn btn-success" data-toggle="modal" data-target="#@lotWId">
+                            Buy
+                        </button>
+                    </div>
                 </div>
                 @{
-                    string header = "", body = "", footer = "";
-                    if (lot.SellerId == 0) {
-                        lot.Seller = marketUser;
-                    }
-                    switch (lot.Type) {
-                        case LotType.Unit:
-                            var unit = Model.LotUnits.Single(u => u.LotId == lot.Id);
-                            header = $"Unit {unit.Name} {unit.Surname} {unit.Age}yo --- Price: {lot.Price}$4";
-                            body = $"Unit lot {unit.Name} {unit.Surname} {unit.Age}yo.          \n" +
-                                   $"Specialization {unit.Specialization} with {unit.Specialization.Skills.Count} skills.";
-                            footer = $"Seller: {lot.Seller.Name}/ Lot status: {lot.Status.ToString()}";
-                            break;
-                        case LotType.Armor:
-                            var armor = Model.LotArmors.Single(u => u.LotId == lot.Id);
-                            header = $"Armor \"{armor.Item.ToString()}\" ({armor.Type.ToString()}) --- Price: {lot.Price}$4";
-                            body = $"{armor.Purpose.ToString()} armor \"{armor.Item.ToString()}\" Type:({armor.Type.ToString()})";
-                            footer = $"Seller: {lot.Seller.Name}/ Lot status: {lot.Status.ToString()}";
-                            break;
-                        case LotType.Weapon:
-                            var weapon = Model.LotWeapons.Single(u => u.LotId == lot.Id);
-                            header = $"Weapon \"{weapon.Item.ToString()}\" ({weapon.Type.ToString()}) --- Price: {lot.Price}$4";
-                            body = $"Weapon \"{weapon.Item.ToString()}\" Type:({weapon.Type.ToString()})\n" +
-                                   $"Aim mod: {weapon.AimModification}\n" +
-                                   $"Magazine mod: {weapon.MagazineModification}\n" +
-                                   $"Barrel mod: {weapon.BarrelModification}\n" +
-                                   $"Butt mod: {weapon.ButtModification}\n";
-                            footer = $"Seller: {lot.Seller.Name}/ Lot status: {lot.Status.ToString()}";
-                            break;
-                        case LotType.Accessory:
-                            var accessory = Model.LotAccessoryes.Single(u => u.LotId == lot.Id);
-                            header = $"Armor \"{accessory.Item.ToString()}\" ({accessory.Type.ToString()}) --- Price: {lot.Price}$4";
-                            body = $"Accessory \"{accessory.Item.ToString()}\" Type:({accessory.Type.ToString()})";
-                            footer = $"Seller: {lot.Seller.Name}/ Lot status: {lot.Status.ToString()}";
-                            break;
-                    }
-                }
+                            string header = "", body = "", footer = "";
+                            if (lot.SellerId == 0) {
+                                lot.Seller = marketUser;
+                            }
+                            switch (lot.Type) {
+                                case LotType.Unit:
+                                    var unit = Model.LotUnits.Single(u => u.LotId == lot.Id);
+                                    header = $"Unit {unit.Name} {unit.Surname} {unit.Age}yo --- Price: {lot.Price}$4";
+                                    body = $"Unit lot {unit.Name} {unit.Surname} {unit.Age}yo.          \n" +
+                                           $"Specialization {unit.Specialization} with {unit.Specialization.Skills.Count} skills.";
+                                    footer = $"Seller: {lot.Seller.Name}/ Lot status: {lot.Status.ToString()}";
+                                    break;
+                                case LotType.Armor:
+                                    var armor = Model.LotArmors.Single(u => u.LotId == lot.Id);
+                                    header = $"Armor \"{armor.Item.ToString()}\" ({armor.Type.ToString()}) --- Price: {lot.Price}$4";
+                                    body = $"{armor.Purpose.ToString()} armor \"{armor.Item.ToString()}\" Type:({armor.Type.ToString()})";
+                                    footer = $"Seller: {lot.Seller.Name}/ Lot status: {lot.Status.ToString()}";
+                                    break;
+                                case LotType.Weapon:
+                                    var weapon = Model.LotWeapons.Single(u => u.LotId == lot.Id);
+                                    header = $"Weapon \"{weapon.Item.ToString()}\" ({weapon.Type.ToString()}) --- Price: {lot.Price}$4";
+                                    body = $"Weapon \"{weapon.Item.ToString()}\" Type:({weapon.Type.ToString()})\n" +
+                                           $"Aim mod: {weapon.AimModification}\n" +
+                                           $"Magazine mod: {weapon.MagazineModification}\n" +
+                                           $"Barrel mod: {weapon.BarrelModification}\n" +
+                                           $"Butt mod: {weapon.ButtModification}\n";
+                                    footer = $"Seller: {lot.Seller.Name}/ Lot status: {lot.Status.ToString()}";
+                                    break;
+                                case LotType.Accessory:
+                                    var accessory = Model.LotAccessoryes.Single(u => u.LotId == lot.Id);
+                                    header = $"Accessory \"{accessory.Item.ToString()}\" ({accessory.Type.ToString()}) --- Price: {lot.Price}$4";
+                                    body = $"Accessory \"{accessory.Item.ToString()}\" Type:({accessory.Type.ToString()})";
+                                    footer = $"Seller: {lot.Seller.Name}/ Lot status: {lot.Status.ToString()}";
+                                    break;
+                                case LotType.Modification:
+                                    var type = Model.ModificationTypes[lot.Id];
+                                    string mitem="",mweapontype="";
+                                    switch (type)
+                                    {
+                                        case ModificationType.Aim:
+                                            AimModificationModel aim = Model.AimModificationModels.Single(a => a.LotId == lot.Id);
+                                            mitem = aim.Item.ToString();mweapontype = aim.WeaponType == null ? "All" : aim.WeaponType.ToString();
+                                            break;
+                                        case ModificationType.Magazine:
+                                            MagazineModificationModel magazine = Model.MagazineModificationModels.Single(a => a.LotId == lot.Id);
+                                            mitem = magazine.Item.ToString();mweapontype = magazine.WeaponType == null ? "All" : magazine.WeaponType.ToString();
+                                            break;
+                                        case ModificationType.Butt:
+                                            ButtModificationModel butt = Model.ButtModificationModels.Single(a => a.LotId == lot.Id);
+                                            mitem = butt.Item.ToString();mweapontype = butt.WeaponType == null ? "All" : butt.WeaponType.ToString();
+                                            break;
+                                        case ModificationType.Barrel:
+                                            BarrelModificationModel barrel = Model.BarrelModificationModels.Single(a => a.LotId == lot.Id);
+                                            mitem = barrel.Item.ToString();mweapontype = barrel.WeaponType == null ? "All" : barrel.WeaponType.ToString();
+                                            break;
+                                    }
+                                    header = $"Modification \"{mitem}\" ({mweapontype}) --- Price: {lot.Price}$4";
+                                    body = $"Modification \"{mitem}\"  for weapon: {mweapontype}";
+                                    footer = $"Seller: {lot.Seller.Name}/ Lot status: {lot.Status.ToString()}";
+                                    break;
+                            }
+                        }
                 <div class="card-header">
                     @header
                 </div>

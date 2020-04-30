@@ -1,0 +1,36 @@
+﻿@model Battlegrid.ru.Models.NewModificationLotModel
+
+
+@{
+    ViewBag.Title = "Создание лотов аксессуаров";
+}
+<div class="align-content-center justify-content-center container"><h2 class=""> @ViewBag.Title</h2> </div>
+<div class="container row">
+    <div class="col"></div>
+    <div class="col">
+        @using (Html.BeginForm("NewModificationLot", "Market", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { role = "form" })) {
+            @Html.AntiForgeryToken()
+            @Html.ValidationSummary(true, "", new { @class = "text-danger", role = "alert" })
+        <div class="form-group">
+            @Html.LabelFor(m => m.Item, new { @class = "" })
+            @Html.EnumDropDownListFor(m => m.Item, new { @class = "form-control" })
+            @Html.LabelFor(m => m.Type, new { @class = "" })
+            @Html.EnumDropDownListFor(m => m.Type, new { @class = "form-control" })
+            @Html.LabelFor(m => m.WeaponType, new { @class = "" })
+            @Html.EnumDropDownListFor(m => m.WeaponType, new { @class = "form-control" })
+        </div>
+            <div class="form-group">
+                @Html.LabelFor(m => m.Price, new { @class = "" })
+                @Html.TextBoxFor(m => m.Price, new { @class = "form-control" })
+                <div class="input-group flex-nowrap">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="addon-wrapping">Lots count</span>
+                    </div>
+                    @Html.TextBoxFor(m => m.LotCount, new { @class = "form-control", placeholder = "Lot count" })
+                </div>
+            </div>
+            <button type="submit" value="Отправить" class="btn btn-success">Отправить</button>
+        }
+    </div>
+    <div class="col"></div>
+</div>

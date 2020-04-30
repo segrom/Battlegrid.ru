@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using BGS.GameCore;
@@ -17,6 +18,7 @@ namespace Battlegrid.ru.Models
         public ButtModificationModel[] ButtModificationModels { get; set; }
         public AimModificationModel[] AimModificationModels { get; set; }
         public ArmorModel[] LotArmors { get; set; }
+        public Dictionary<int,ModificationType> ModificationTypes { get; set; }
     }
 
 
@@ -53,6 +55,32 @@ namespace Battlegrid.ru.Models
     {
         public WeaponItem Item { get; set; }
         public WeaponType Type { get; set; }
+        [Range(typeof(float), "0", "100000000", ErrorMessage = "float значение [0,100000000]")] public float Price { get; set; }
+        public int LotCount { get; set; }
+    }
+    public class NewArmorLotModel {
+        public ArmorItem Item { get; set; }
+        public ArmorType Type { get; set; }
+        public ArmorPurpose Purpose { get; set; }
+        [Range(typeof(float), "0", "100000000", ErrorMessage = "float значение [0,100000000]")] public float Price { get; set; }
+        public int LotCount { get; set; }
+    }
+    public class NewAccessoryLotModel {
+        public AccessoryItem Item { get; set; }
+        public AccessoryType Type { get; set; }
+        [Range(typeof(float), "0", "100000000", ErrorMessage = "float значение [0,100000000]")] public float Price { get; set; }
+        public int LotCount { get; set; }
+    }
+    public class NewStorageLotModel {
+        public StorageItem Item { get; set; }
+        public StorageType Type { get; set; }
+        [Range(typeof(float), "0", "100000000", ErrorMessage = "float значение [0,100000000]")] public float Price { get; set; }
+        public int LotCount { get; set; }
+    }
+    public class NewModificationLotModel {
+        public ModificationItems Item { get; set; }
+        public ModificationType Type { get; set; }
+        public WeaponType? WeaponType { get; set; }
         [Range(typeof(float), "0", "100000000", ErrorMessage = "float значение [0,100000000]")] public float Price { get; set; }
         public int LotCount { get; set; }
     }

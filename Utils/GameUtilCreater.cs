@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Battlegrid.ru.Models;
+using BGS.GameCore;
 using BGS.Models;
 using Newtonsoft.Json.Serialization;
 
@@ -69,5 +70,32 @@ namespace Battlegrid.ru.Utils
                 ButtModification = null
             };
         }
+
+        public static ArmorModel ArmorModelFromModel(NewArmorLotModel model)
+        {
+            return new ArmorModel{
+                Item = model.Item,
+                Type = model.Type,
+                Purpose = model.Purpose
+            };
+        }
+
+        public static AccessoryModel AccessoryModelFromModel(NewAccessoryLotModel model)
+        {
+            return new AccessoryModel()
+            {
+                Type = model.Type,
+                Item = model.Item
+            };
+        }
+
+        public static StorageModel StorageModelFromModel(NewStorageLotModel model)
+        {
+            return new StorageModel()
+            {
+                Type = model.Type,Item = model.Item
+            };
+        }
+
     }
 }
