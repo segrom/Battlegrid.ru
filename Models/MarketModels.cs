@@ -1,4 +1,7 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
+using System.Linq;
+using BGS.GameCore;
 using BGS.Models;
 
 namespace Battlegrid.ru.Models
@@ -46,8 +49,11 @@ namespace Battlegrid.ru.Models
 
     }
 
-    public class BuyLotViewModel
+    public class NewWeaponLotModel
     {
-        private bool acceptConsent { get; set; }
+        public WeaponItem Item { get; set; }
+        public WeaponType Type { get; set; }
+        [Range(typeof(float), "0", "100000000", ErrorMessage = "float значение [0,100000000]")] public float Price { get; set; }
+        public int LotCount { get; set; }
     }
 }

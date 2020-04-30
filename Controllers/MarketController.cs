@@ -160,5 +160,42 @@ namespace Battlegrid.ru.Controllers
             }
 
         }
+        //GET
+        [Authorize(Roles = "admin")]
+        public ActionResult NewWeaponLot() {
+            var model = new NewWeaponLotModel();
+            return View(model);
+        }
+        //POST
+        [HttpPost]
+        [Authorize(Roles = "admin")]
+        public ActionResult NewWeaponLot(NewWeaponLotModel model) {
+            if (ModelState.IsValid) {
+                using (var db = new BGS_DBContext()) {
+                    string userIdentityId = User.Identity.GetUserId();
+                    var seller = db.Users.Single(u => u.Id == userIdentityId);
+                    for (int i = 0; i < model.LotCount; i++) {
+                        WeaponModel newWeaponModelModel = GameUtilCreater.WeaponModelFromModel(model);
+                        db.WeaponModels.Add(newWeaponModelModel);
+                        db.SaveChanges();
+                        var lot = new LotModel() {
+                            Seller = seller,
+                            ItemId = newWeaponModelModel.Id,
+                            Price = model.Price,
+                            SellerId = seller.GameId,
+                            Status = LotStatus.Available,
+                            Type = LotType.Weapon
+                        };
+                        db.LotModels.Add(lot);
+                        db.SaveChanges();
+                        newWeaponModelModel.LotId = lot.Id;
+                    }
+                    db.SaveChanges();
+                    return RedirectToAction("Index", "Market");
+                }
+            }
+            ModelState.AddModelError("", "Что то не правильно");
+            return View(model);
+        }
     }
 }

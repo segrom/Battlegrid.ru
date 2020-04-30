@@ -373,6 +373,7 @@
     <Content Include="Views\Blog\WriteComment.cshtml" />
     <Content Include="Views\Market\NewUnitLot.cshtml" />
     <Content Include="Views\Inventory\Index.cshtml" />
+    <Content Include="Views\Market\NewWeaponLot.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

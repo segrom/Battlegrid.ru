@@ -43,11 +43,11 @@
     @if (auth && User.IsInRole("admin")) {
 
         <ul class="nav  mt-3">
-            <li class="nav-item">@Html.ActionLink("Создать лоты юнитов", "NewUnitLot", "Market", null, new { @class = "mx-2 btn btn-success " })</li>
-            <li class="nav-item">@Html.ActionLink("Создать лоты оружия", "NewPost", "Blog", null, new { @class = "mx-2 btn btn-success " })</li>
-            <li class="nav-item">@Html.ActionLink("Создать лоты брони", "NewPost", "Blog", null, new { @class = "mx-2 btn btn-success " })</li>
-            <li class="nav-item">@Html.ActionLink("Создать лоты модификаций", "NewPost", "Blog", null, new { @class = "mx-2 btn btn-success " })</li>
-            <li class="nav-item">@Html.ActionLink("Создать лоты Хранилиц", "NewPost", "Blog", null, new { @class = "mx-2 btn btn-success " })</li>
+            <li class="nav-item">@Html.ActionLink("Создать лоты юнитов", "NewUnitLot", "Market", null, new { @class = "m-2 btn btn-success " })</li>
+            <li class="nav-item">@Html.ActionLink("Создать лоты оружия", "NewWeaponLot", "Market", null, new { @class = "m-2 btn btn-success " })</li>
+            <li class="nav-item">@Html.ActionLink("Создать лоты брони", "NewPost", "Blog", null, new { @class = "m-2 btn btn-success " })</li>
+            <li class="nav-item">@Html.ActionLink("Создать лоты модификаций", "NewPost", "Blog", null, new { @class = "m-2 btn btn-success " })</li>
+            <li class="nav-item">@Html.ActionLink("Создать лоты Хранилиц", "NewPost", "Blog", null, new { @class = "m-2 btn btn-success " })</li>
         </ul>
     }
     <div class="col"></div>

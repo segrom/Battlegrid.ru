@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Battlegrid.ru.Models;
 using BGS.Models;
+using Newtonsoft.Json.Serialization;
 
 namespace Battlegrid.ru.Utils
 {
@@ -54,6 +55,19 @@ namespace Battlegrid.ru.Utils
             };
             newUnit.Specialization=new UnitSpecializationModel();
             return newUnit;
+        }
+
+        public static WeaponModel WeaponModelFromModel(NewWeaponLotModel model)
+        {
+            return new WeaponModel()
+            {
+                Item = model.Item,
+                Type = model.Type,
+                AimModification = null,
+                BarrelModification = null,
+                MagazineModification = null,
+                ButtModification = null
+            };
         }
     }
 }
