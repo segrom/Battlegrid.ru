@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using System.Web.Mvc;
@@ -137,10 +138,9 @@ namespace Battlegrid.ru.Controllers
                 User user = db.Users.Single(u => u.Id == id);
                 if (user.AccountBalance - lot.Price > 0)
                 {
-                    lot.Status = LotStatus.Closed;
-                    lot.BuyerId = user.GameId;
                     switch (lot.Type)
                     {
+                        default:throw new Exception("No this lot");
                         case LotType.Unit: 
                             UnitModel unitModel = db.UnitModels.Single(u => u.LotId == lotId);
                             unitModel.LotId = null;
@@ -166,7 +166,19 @@ namespace Battlegrid.ru.Controllers
                             storageModel.LotId = null;
                             storageModel.Owner = user;
                             break;
+                        case LotType.Modification:
+                            AimModificationModel aim = db.AimModificationModels.SingleOrDefault(a => a.LotId == lot.Id);
+                            MagazineModificationModel magazine = db.MagazineModificationModels.SingleOrDefault(a => a.LotId == lot.Id);
+                            BarrelModificationModel barrel = db.BarrelModificationModels.SingleOrDefault(a => a.LotId == lot.Id);
+                            ButtModificationModel butt = db.ButtModificationModels.SingleOrDefault(a => a.LotId == lot.Id);
+                            if(aim!=null){ aim.LotId = null; aim.Owner = user; }
+                            if(magazine!=null){ magazine.LotId = null; magazine.Owner = user; }
+                            if(barrel!=null){ barrel.LotId = null; barrel.Owner = user; }
+                            if(butt!=null){ butt.LotId = null; butt.Owner = user; }
+                            break;
                     }
+                    lot.Status = LotStatus.Closed;
+                    lot.BuyerId = user.GameId;
                     user.AccountBalance -= lot.Price;
                     db.SaveChanges();
                     return RedirectToAction("Index", "Market",
