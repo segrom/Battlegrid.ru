@@ -12,7 +12,7 @@ namespace Battlegrid.ru.Controllers {
         public ActionResult Index() {
             HomeIndexViewModel allPosts = new HomeIndexViewModel();
             using (var db = new BlogModels()) {
-                allPosts.AllPosts = db.Posts.OrderBy(p => p.CreationTime).Take(4).ToArray();
+                allPosts.AllPosts = db.Posts.OrderByDescending(p => p.CreationTime).Take(4).ToArray();
                 allPosts.AllPosts.ForEach(p=>p.Views++);
             }
             return View(allPosts);

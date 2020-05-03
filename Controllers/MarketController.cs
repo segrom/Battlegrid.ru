@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.Entity;
+using System.Globalization;
 using System.Linq;
 using System.Web.Mvc;
 using Battlegrid.ru.Models;
@@ -79,7 +80,7 @@ namespace Battlegrid.ru.Controllers
         }
         //GET
         [Authorize]
-        public ActionResult GerUserBalance()
+        public ActionResult GetUserBalance()
         {
             using (var db = new BGS_DBContext())
             {
@@ -88,7 +89,7 @@ namespace Battlegrid.ru.Controllers
 
                 return new ContentResult()
                 {
-                    Content = $"<a href=\"#\" class=\"btn btn-link m-1 bg-light text-success\">{balance.ToString()}$4<a/>",
+                    Content = $"<a href=\"#\" class=\"btn btn-link m-1 bg-light text-success\">{balance.ToString("C", CultureInfo.CurrentUICulture)}$4<a/>",
                     ContentType = "text/html"
                 };
             }

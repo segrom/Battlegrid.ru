@@ -27,7 +27,7 @@
         <div class="col-8">
             <div class="tab-content" id="nav-tabContent">
                 <div class="tab-pane fade show active" id="list-home" role="tabpanel" aria-labelledby="list-home-list">Разнообразие асортимента аксессуаров и оружия не оставит вас равнодушными</div>
-                <div class="tab-pane fade" id="list-profile" role="tabpanel" aria-labelledby="list-profile-list">Сессионные игры с 2,4 и 6ю игроками. Играйте как в команде так и в одиночкую</div>
+                <div class="tab-pane fade" id="list-profile" role="tabpanel" aria-labelledby="list-profile-list">Сессионные игры с 2,4 и 6 игроками. Играйте как в команде так и в одиночкую</div>
                 <div class="tab-pane fade" id="list-messages" role="tabpanel" aria-labelledby="list-messages-list">Широкие возможности касомизации юнитов открывают большой простор для фантазии</div>
                 <div class="tab-pane fade" id="list-settings" role="tabpanel" aria-labelledby="list-settings-list">Победа зависти только от вас и вашего стратегического мышления</div>
             </div>
@@ -40,7 +40,7 @@
     <div class="list-group">
         @foreach (var post in Model.AllPosts) {
             <a href="#" class="list-group-item list-group-item-action bg-dark text-light btn-outline-light active">
-            @{string hoursAgo = (@DateTime.Now - @post.CreationTime).Hours.ToString(); }
+            @{string hoursAgo = Math.Round((DateTime.Now - post.CreationTime).TotalHours).ToString(); }
                 <div class="d-flex w-100 justify-content-between">
                     <h5 class="mb-1">@post.Label </h5>
                     <small>@hoursAgo часов назад</small>
