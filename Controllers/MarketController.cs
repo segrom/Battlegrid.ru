@@ -181,6 +181,7 @@ namespace Battlegrid.ru.Controllers
                     lot.Status = LotStatus.Closed;
                     lot.BuyerId = user.GameId;
                     user.AccountBalance -= lot.Price;
+                    lot.Seller.AccountBalance += lot.Price;
                     db.SaveChanges();
                     return RedirectToAction("Index", "Market",
                         new { buy = $"Лот #{lot.Id} успешно куплен за {lot.Price}$4" });
